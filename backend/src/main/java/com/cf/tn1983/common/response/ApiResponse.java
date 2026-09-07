@@ -5,8 +5,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /** Standard response envelope for all API endpoints. */
+@Schema(description = "Cấu trúc response chung của API")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -14,10 +16,13 @@ import lombok.Setter;
 @Builder
 public class ApiResponse<T> {
 
+    @Schema(description = "Mã trạng thái xử lý", example = "200")
     private int code;
 
+    @Schema(description = "Thông báo kết quả xử lý", example = "Success")
     private String message;
 
+    @Schema(description = "Dữ liệu trả về của API")
     private T data;
 
     public static <T> ApiResponse<T> success(T data) {

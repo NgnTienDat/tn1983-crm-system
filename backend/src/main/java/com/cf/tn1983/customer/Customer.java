@@ -3,6 +3,8 @@ package com.cf.tn1983.customer;
 import com.cf.tn1983.common.entity.BaseEntity;
 import com.cf.tn1983.order.Order;
 import com.cf.tn1983.user.User;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -29,8 +31,13 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Customer extends BaseEntity {
 
+    @Column(nullable = false)
+    private String customerCode;
+
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private String phone;
 
     private String address;
@@ -38,13 +45,18 @@ public class Customer extends BaseEntity {
     private String note;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private CustomerType type;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private Boolean active = true;
 
     @OneToOne(optional = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", unique = true)
     private User user;
 
     @Builder.Default
-    @OneToMany(mappedBy = "orderBy", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     private List<Order> orders = new ArrayList<>();
 }
