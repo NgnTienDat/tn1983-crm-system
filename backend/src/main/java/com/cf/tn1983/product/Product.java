@@ -3,12 +3,14 @@ package com.cf.tn1983.product;
 import com.cf.tn1983.common.entity.BaseEntity;
 import com.cf.tn1983.order.OrderItem;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +18,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/** Product catalog item without a stored price. */
+/** Product catalog item with a reference listed price. */
 @Entity
 @Table(name = "products")
 @Getter
@@ -26,12 +28,19 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Product extends BaseEntity {
 
+    @Column(nullable = false)
     private String name;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private ProductType type;
 
-    private Boolean active;
+    @Column(nullable = false, precision = 19, scale = 2)
+    private BigDecimal listedPrice;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private Boolean active = true;
 
     @Builder.Default
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
