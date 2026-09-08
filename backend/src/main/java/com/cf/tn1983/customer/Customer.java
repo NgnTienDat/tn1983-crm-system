@@ -2,16 +2,13 @@ package com.cf.tn1983.customer;
 
 import com.cf.tn1983.common.entity.BaseEntity;
 import com.cf.tn1983.order.Order;
-import com.cf.tn1983.user.User;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +28,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Customer extends BaseEntity {
 
-    @Column(nullable = false)
-    private String customerCode;
+    // @Column(nullable = false)
+    // private String customerCode;
 
     @Column(nullable = false)
     private String name;

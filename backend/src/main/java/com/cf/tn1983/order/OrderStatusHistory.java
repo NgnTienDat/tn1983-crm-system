@@ -1,6 +1,7 @@
 package com.cf.tn1983.order;
 
 import com.cf.tn1983.common.entity.BaseEntity;
+import com.cf.tn1983.order.enums.OrderStatus;
 import com.cf.tn1983.user.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -9,7 +10,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,7 +36,7 @@ public class OrderStatusHistory extends BaseEntity {
 
     private String note;
 
-    private LocalDateTime changedAt;
+    private Instant changedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "changed_by_id")

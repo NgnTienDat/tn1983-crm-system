@@ -17,11 +17,11 @@ public class LoginRequest {
 
     @NotBlank(message = "Phone is required")
     @Pattern (regexp = "^(0|\\+84)[3|5|7|8|9][0-9]{8}$", message = "Invalid phone number format")
-    @Schema(description = "Số điện thoại", example = "0852845969")
+    @Schema(description = "Số điện thoại", example = "0900000000")
     private String phone;
 
     @NotBlank(message = "Password is required")
     @Size(min = 6, max = 50, message = "Password must be between 6 and 50 characters")
-    @Schema(description = "Mật khẩu đăng nhập", example = "secret123", minLength = 6)
+    @Schema(description = "Mật khẩu đăng nhập", example = "admin123", minLength = 6)
     private String password;
 }

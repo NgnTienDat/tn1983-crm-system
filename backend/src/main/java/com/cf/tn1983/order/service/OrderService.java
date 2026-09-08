@@ -1,27 +1,29 @@
 package com.cf.tn1983.order.service;
 
-import com.cf.tn1983.order.OrderStatus;
 import com.cf.tn1983.order.dto.request.ChangeOrderStatusRequest;
 import com.cf.tn1983.order.dto.request.CreateOrderRequest;
 import com.cf.tn1983.order.dto.request.UpdateOrderRequest;
-import com.cf.tn1983.order.dto.response.OrderResponse;
+import com.cf.tn1983.order.dto.response.OrderDetailResponse;
+import com.cf.tn1983.order.dto.response.OrderSummaryResponse;
+import com.cf.tn1983.order.enums.OrderStatus;
+
 import java.util.List;
 import java.util.UUID;
 
 /** Application operations for managing orders. */
 public interface OrderService {
 
-    OrderResponse create(CreateOrderRequest request);
+    OrderDetailResponse create(CreateOrderRequest request);
 
-    OrderResponse update(UUID id, UpdateOrderRequest request);
+    OrderDetailResponse update(UUID id, UpdateOrderRequest request);
 
-    OrderResponse getById(UUID id);
+    OrderDetailResponse getById(UUID id);
 
-    OrderResponse getByCode(String orderCode);
+    OrderDetailResponse getByCode(String orderCode);
 
-    List<OrderResponse> search(OrderStatus status, UUID customerId, String keyword);
+    List<OrderSummaryResponse> search(OrderStatus status, UUID customerId, String keyword);
 
-    OrderResponse changeStatus(UUID id, ChangeOrderStatusRequest request);
+    OrderDetailResponse changeStatus(UUID id, ChangeOrderStatusRequest request);
 
     void delete(UUID id);
 }

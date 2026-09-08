@@ -1,4 +1,4 @@
-package com.cf.tn1983.order;
+package com.cf.tn1983.order.enums;
 
 /** Current fulfillment status of an order. */
 public enum OrderStatus {

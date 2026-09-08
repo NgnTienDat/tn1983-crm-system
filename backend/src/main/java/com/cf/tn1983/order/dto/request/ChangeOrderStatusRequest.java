@@ -1,9 +1,11 @@
 package com.cf.tn1983.order.dto.request;
 
-import com.cf.tn1983.order.OrderStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
+
+import com.cf.tn1983.order.enums.OrderStatus;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

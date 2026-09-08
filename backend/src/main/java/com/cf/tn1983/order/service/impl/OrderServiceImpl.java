@@ -6,26 +6,29 @@ import com.cf.tn1983.customer.Customer;
 import com.cf.tn1983.customer.repository.CustomerRepository;
 import com.cf.tn1983.order.Order;
 import com.cf.tn1983.order.OrderItem;
-import com.cf.tn1983.order.OrderStatus;
+import com.cf.tn1983.order.OrderStatusHistory;
 import com.cf.tn1983.order.dto.request.ChangeOrderStatusRequest;
 import com.cf.tn1983.order.dto.request.CreateOrderRequest;
 import com.cf.tn1983.order.dto.request.OrderItemRequest;
 import com.cf.tn1983.order.dto.request.UpdateOrderRequest;
-import com.cf.tn1983.order.dto.response.OrderResponse;
-import com.cf.tn1983.order.event.OrderStatusChangedEvent;
+import com.cf.tn1983.order.dto.response.OrderDetailResponse;
+import com.cf.tn1983.order.dto.response.OrderSummaryResponse;
+import com.cf.tn1983.order.enums.OrderStatus;
 import com.cf.tn1983.order.mapper.OrderMapper;
 import com.cf.tn1983.order.repository.OrderRepository;
+import com.cf.tn1983.order.repository.OrderStatusHistoryRepository;
 import com.cf.tn1983.order.service.OrderCodeGenerator;
 import com.cf.tn1983.order.service.OrderService;
 import com.cf.tn1983.product.Product;
 import com.cf.tn1983.product.repository.ProductRepository;
+import com.cf.tn1983.user.User;
+import com.cf.tn1983.user.repository.UserRepository;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,13 +41,14 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final CustomerRepository customerRepository;
     private final ProductRepository productRepository;
+    private final OrderStatusHistoryRepository historyRepository;
+    private final UserRepository userRepository;
     private final OrderMapper orderMapper;
     private final OrderCodeGenerator orderCodeGenerator;
-    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     @Transactional
-    public OrderResponse create(CreateOrderRequest request) {
+    public OrderDetailResponse create(CreateOrderRequest request) {
         Customer customer = getCustomer(request.getCustomerId());
         Order order = Order.builder()
                 .orderCode(orderCodeGenerator.nextCode())
@@ -61,13 +65,13 @@ public class OrderServiceImpl implements OrderService {
         replaceItems(order, request.getItems());
 
         Order saved = orderRepository.save(order);
-        publishStatusEvent(saved, null, request.getNote(), request.getChangedBy());
-        return orderMapper.toResponse(saved);
+        saveStatusHistory(saved, request.getNote(), request.getChangedBy());
+        return orderMapper.toDetailResponse(saved);
     }
 
     @Override
     @Transactional
-    public OrderResponse update(UUID id, UpdateOrderRequest request) {
+    public OrderDetailResponse update(UUID id, UpdateOrderRequest request) {
         Order order = getOrder(id);
         order.setCustomer(getCustomer(request.getCustomerId()));
         order.setReceiverName(request.getReceiverName());
@@ -77,38 +81,38 @@ public class OrderServiceImpl implements OrderService {
         order.setShippingMethod(request.getShippingMethod());
         order.setNote(request.getNote());
         replaceItems(order, request.getItems());
-        return orderMapper.toResponse(orderRepository.save(order));
+        return orderMapper.toDetailResponse(orderRepository.save(order));
     }
 
     @Override
-    public OrderResponse getById(UUID id) {
-        return orderMapper.toResponse(getOrder(id));
+    public OrderDetailResponse getById(UUID id) {
+        return orderMapper.toDetailResponse(getOrder(id));
     }
 
     @Override
-    public OrderResponse getByCode(String orderCode) {
-        return orderMapper.toResponse(orderRepository.findByOrderCodeAndDeletedFalse(orderCode)
+    public OrderDetailResponse getByCode(String orderCode) {
+        return orderMapper.toDetailResponse(orderRepository.findByOrderCodeAndDeletedFalse(orderCode)
                 .orElseThrow(() -> new AppException(ErrorCode.ORDER_CODE_NOT_FOUND)));
     }
 
     @Override
-    public List<OrderResponse> search(OrderStatus status, UUID customerId, String keyword) {
-        String normalizedKeyword = keyword == null || keyword.isBlank() ? null : keyword.trim();
+    public List<OrderSummaryResponse> search(OrderStatus status, UUID customerId, String keyword) {
+        String normalizedKeyword = keyword == null || keyword.isBlank() ? "" : keyword.trim();
         return orderRepository.searchActive(status, customerId, normalizedKeyword).stream()
-                .map(orderMapper::toResponse)
+            .map(orderMapper::toSummaryResponse)
                 .toList();
     }
 
     @Override
     @Transactional
-    public OrderResponse changeStatus(UUID id, ChangeOrderStatusRequest request) {
+    public OrderDetailResponse changeStatus(UUID id, ChangeOrderStatusRequest request) {
         Order order = getOrder(id);
         OrderStatus oldStatus = order.getStatus();
         validateStatusChange(oldStatus, request.getStatus());
         order.setStatus(request.getStatus());
         Order saved = orderRepository.save(order);
-        publishStatusEvent(saved, oldStatus, request.getNote(), request.getChangedBy());
-        return orderMapper.toResponse(saved);
+        saveStatusHistory(saved, request.getNote(), request.getChangedBy());
+        return orderMapper.toDetailResponse(saved);
     }
 
     @Override
@@ -159,9 +163,22 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private void publishStatusEvent(Order order, OrderStatus oldStatus, String note, UUID changedBy) {
-        eventPublisher.publishEvent(new OrderStatusChangedEvent(
-                order.getId(), order.getOrderCode(), oldStatus, order.getStatus(), note,
-                changedBy, LocalDateTime.now()));
+    /**
+     * Persists mandatory order history in the same transaction as the order.
+     *
+     * <p>Order status and its history must commit or roll back together. The
+     * history is business data, so an AFTER_COMMIT event is intentionally not
+     * used: a listener failure after commit could lose the history record.</p>
+     */
+    private void saveStatusHistory(Order order, String note, UUID changedBy) {
+        User user = changedBy == null ? null : userRepository.getReferenceById(changedBy);
+        OrderStatusHistory history = OrderStatusHistory.builder()
+                .order(order)
+                .status(order.getStatus())
+                .note(note)
+                .changedAt(Instant.now())
+                .changedBy(user)
+                .build();
+        historyRepository.save(history);
     }
 }
