@@ -9,8 +9,6 @@ import com.cf.tn1983.customer.dto.response.CustomerResponse;
 import com.cf.tn1983.customer.mapper.CustomerMapper;
 import com.cf.tn1983.customer.repository.CustomerRepository;
 import com.cf.tn1983.customer.service.CustomerService;
-import com.cf.tn1983.user.User;
-import com.cf.tn1983.user.repository.UserRepository;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -26,7 +24,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
-    private final UserRepository userRepository;
 
     @Override
     @Transactional
@@ -35,7 +32,6 @@ public class CustomerServiceImpl implements CustomerService {
 
         Customer customer = customerMapper.toEntity(request);
         customer.setActive(true);
-        customer.setUser(resolveUser(request.getUserId()));
         return customerMapper.toResponse(customerRepository.save(customer));
     }
 
@@ -49,7 +45,6 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
         customerMapper.updateCustomer(request, customer);
-        customer.setUser(resolveUser(request.getUserId()));
         return customerMapper.toResponse(customerRepository.save(customer));
     }
 
@@ -84,11 +79,4 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
-    private User resolveUser(UUID userId) {
-        if (userId == null) {
-            return null;
-        }
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
-    }
 }

@@ -52,10 +52,6 @@ public class Customer extends BaseEntity {
     @Column(nullable = false)
     private Boolean active = true;
 
-    @OneToOne(optional = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", unique = true)
-    private User user;
-
     @Builder.Default
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     private List<Order> orders = new ArrayList<>();

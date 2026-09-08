@@ -12,17 +12,14 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring")
 public interface CustomerMapper {
 
-    @Mapping(target = "user", ignore = true)
     @Mapping(target = "active", ignore = true)
     Customer toEntity(CreateCustomerRequest request);
 
-    @Mapping(target = "userId", source = "user.id")
     CustomerResponse toResponse(Customer customer);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
-    @Mapping(target = "user", ignore = true)
     @Mapping(target = "active", ignore = true)
     void updateCustomer(UpdateCustomerRequest request, @MappingTarget Customer customer);
 }

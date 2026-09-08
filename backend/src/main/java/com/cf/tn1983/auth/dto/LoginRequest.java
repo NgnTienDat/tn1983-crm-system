@@ -17,7 +17,7 @@ public class LoginRequest {
 
     @NotBlank(message = "Phone is required")
     @Pattern (regexp = "^(0|\\+84)[3|5|7|8|9][0-9]{8}$", message = "Invalid phone number format")
-    @Schema(description = "Số điện thoại", example = "0901234567")
+    @Schema(description = "Số điện thoại", example = "0852845969")
     private String phone;
 
     @NotBlank(message = "Password is required")

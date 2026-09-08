@@ -1,7 +1,12 @@
-package com.cf.tn1983.common.security;
+package com.cf.tn1983.common.security.jwt;
 
+import com.cf.tn1983.auth.repository.BlacklistedTokenRepository;
 import com.cf.tn1983.common.exception.AppException;
 import com.cf.tn1983.common.exception.ErrorCode;
+import com.cf.tn1983.common.exception.SecurityExceptionDelegate;
+import com.cf.tn1983.common.security.CustomUserDetailsService;
+import com.cf.tn1983.common.security.SecurityPaths;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
@@ -17,15 +22,29 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.util.AntPathMatcher;
 
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    private static final AntPathMatcher PATH_MATCHER = new AntPathMatcher();
+
     private final JwtService jwtService;
     private final BlacklistedTokenRepository blacklistedTokenRepository;
     private final CustomUserDetailsService userDetailsService;
     private final SecurityExceptionDelegate exceptionDelegate;
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getServletPath();
+        for (String pattern : SecurityPaths.PUBLIC) {
+            if (PATH_MATCHER.match(pattern, path)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Override
     protected void doFilterInternal(

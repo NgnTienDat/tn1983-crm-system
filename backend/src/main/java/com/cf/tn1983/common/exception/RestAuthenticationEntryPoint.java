@@ -1,7 +1,5 @@
-package com.cf.tn1983.common.security;
+package com.cf.tn1983.common.exception;
 
-import com.cf.tn1983.common.exception.AppException;
-import com.cf.tn1983.common.exception.ErrorCode;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

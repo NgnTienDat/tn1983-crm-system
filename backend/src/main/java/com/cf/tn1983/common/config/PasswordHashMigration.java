@@ -1,4 +1,4 @@
-package com.cf.tn1983.common.security;
+package com.cf.tn1983.common.config;
 
 import com.cf.tn1983.user.User;
 import com.cf.tn1983.user.repository.UserRepository;

@@ -20,6 +20,6 @@ public interface UserMapper {
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
-    @Mapping(target = "customer", ignore = true)
+    // @Mapping(target = "customer", ignore = true)
     void updateUser(UpdateUserRequest request, @MappingTarget User user);
 }
