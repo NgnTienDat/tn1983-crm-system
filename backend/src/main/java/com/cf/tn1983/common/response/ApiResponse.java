@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.Map;
 
 /** Standard response envelope for all API endpoints. */
 @Schema(description = "Cấu trúc response chung của API")
@@ -31,5 +32,10 @@ public class ApiResponse<T> {
 
     public static <T> ApiResponse<T> error(int code, String message) {
         return new ApiResponse<>(code, message, null);
+    }
+
+    public static ApiResponse<Map<String, String>> validationError(
+            Map<String, String> errors) {
+        return new ApiResponse<>(4000, "Validation failed", errors);
     }
 }

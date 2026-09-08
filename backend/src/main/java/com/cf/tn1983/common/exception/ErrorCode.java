@@ -20,6 +20,7 @@ public enum ErrorCode {
     ORDER_CODE_NOT_FOUND(1008, "Order code not found", HttpStatus.NOT_FOUND),
     ORDER_ITEM_REQUIRED(1009, "At least one order item is required", HttpStatus.BAD_REQUEST),
     INVALID_ORDER_STATUS(1010, "Invalid order status", HttpStatus.BAD_REQUEST),
+    ORDER_NOT_EDITABLE(1011, "Order is not editable in its current status", HttpStatus.BAD_REQUEST),
     INTERNAL_SERVER_ERROR(5000, "Internal server error", HttpStatus.INTERNAL_SERVER_ERROR);
 
     private final int code;
