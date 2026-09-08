@@ -39,9 +39,6 @@ public class CustomerResponse {
     @Schema(description = "Loại khách hàng", example = "COFFEE_SHOP")
     private CustomerType type;
 
-    @Schema(description = "Mã người dùng liên kết", example = "550e8400-e29b-41d4-a716-446655440000", nullable = true)
-    private UUID userId;
-
     @Schema(description = "Trạng thái phục vụ", example = "true")
     private Boolean active;
 

@@ -4,14 +4,14 @@ import com.cf.tn1983.auth.dto.LoginRequest;
 import com.cf.tn1983.auth.dto.LogoutRequest;
 import com.cf.tn1983.auth.dto.RefreshTokenRequest;
 import com.cf.tn1983.auth.dto.TokenResponse;
+import com.cf.tn1983.auth.repository.BlacklistedTokenRepository;
+import com.cf.tn1983.auth.repository.RefreshTokenRepository;
 import com.cf.tn1983.auth.service.AuthService;
+import com.cf.tn1983.common.entity.BlacklistedToken;
+import com.cf.tn1983.common.entity.RefreshToken;
 import com.cf.tn1983.common.exception.AppException;
 import com.cf.tn1983.common.exception.ErrorCode;
-import com.cf.tn1983.common.security.BlacklistedToken;
-import com.cf.tn1983.common.security.BlacklistedTokenRepository;
-import com.cf.tn1983.common.security.JwtService;
-import com.cf.tn1983.common.security.RefreshToken;
-import com.cf.tn1983.common.security.RefreshTokenRepository;
+import com.cf.tn1983.common.security.jwt.JwtService;
 import com.cf.tn1983.user.User;
 import com.cf.tn1983.user.dto.response.UserResponse;
 import com.cf.tn1983.user.mapper.UserMapper;
@@ -117,6 +117,7 @@ public class AuthServiceImpl implements AuthService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
     }
 
+    // Generates and persists a new access token and refresh token for the given user. The parentTokenId is used to link the new refresh token to its parent in the token family, and the familyId is used to group related tokens together. If familyId is null, a new family is created with the new token as the root.
     private TokenResponse issueTokens(User user, String parentTokenId, UUID familyId) {
         String tokenId = UUID.randomUUID().toString();
         UUID rootFamilyId = familyId == null ? UUID.fromString(tokenId) : familyId;

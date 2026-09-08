@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -43,6 +42,4 @@ public class CreateCustomerRequest {
     @Schema(description = "Loại khách hàng", example = "COFFEE_SHOP")
     private CustomerType type;
 
-    @Schema(description = "Mã người dùng liên kết, có thể bỏ trống", example = "550e8400-e29b-41d4-a716-446655440000", nullable = true)
-    private UUID userId;
 }

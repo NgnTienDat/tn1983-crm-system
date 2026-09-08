@@ -1,8 +1,7 @@
-package com.cf.tn1983.common.security;
+package com.cf.tn1983.common.security.jwt;
 
 import com.cf.tn1983.user.User;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;

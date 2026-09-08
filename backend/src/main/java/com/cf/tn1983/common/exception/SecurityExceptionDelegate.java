@@ -1,4 +1,4 @@
-package com.cf.tn1983.common.security;
+package com.cf.tn1983.common.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

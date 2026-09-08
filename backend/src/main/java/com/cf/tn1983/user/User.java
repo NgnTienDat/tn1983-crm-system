@@ -39,6 +39,4 @@ public class User extends BaseEntity {
 
     private Boolean active;
 
-    @OneToOne(mappedBy = "user", fetch = jakarta.persistence.FetchType.LAZY)
-    private Customer customer;
 }
