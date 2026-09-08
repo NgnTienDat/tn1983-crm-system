@@ -1,7 +1,11 @@
 package com.cf.tn1983.common.exception;
 
 import com.cf.tn1983.common.response.ApiResponse;
-import java.util.Objects;
+
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.http.HttpStatus;
@@ -10,13 +14,16 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.FieldError;
 
 /** Centralized translation of application exceptions into API responses. */
 @RestControllerAdvice
+@Slf4j 
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(AppException.class)
     public ResponseEntity<ApiResponse<Void>> handleAppException(AppException exception) {
+        log.error("Unhandled exception", exception);
         ErrorCode errorCode = exception.getErrorCode();
         return ResponseEntity
                 .status(errorCode.getHttpStatus())
@@ -24,19 +31,23 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiResponse<Void>> handleValidationException(
+    public ResponseEntity<ApiResponse<Map<String, String>>> handleValidationException(
             MethodArgumentNotValidException exception) {
-        String message = exception.getBindingResult()
+        Map<String, String> errors = exception.getBindingResult()
                 .getFieldErrors()
                 .stream()
-                .map(error -> error.getDefaultMessage())
-                .filter(Objects::nonNull)
-                .findFirst()
-                .orElse(ErrorCode.VALIDATION_ERROR.getMessage());
+                .collect(LinkedHashMap::new,
+                        (result, error) -> result.putIfAbsent(
+                                error.getField(), validationMessage(error)),
+                        LinkedHashMap::putAll);
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(ApiResponse.error(ErrorCode.VALIDATION_ERROR.getCode(), message));
+                .body(ApiResponse.validationError(errors));
+    }
+
+    private String validationMessage(FieldError error) {
+        return error.getDefaultMessage() == null ? "Invalid" : error.getDefaultMessage();
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)

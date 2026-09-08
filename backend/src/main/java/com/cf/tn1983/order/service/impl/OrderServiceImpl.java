@@ -26,7 +26,6 @@ import com.cf.tn1983.user.repository.UserRepository;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -73,6 +72,10 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public OrderDetailResponse update(UUID id, UpdateOrderRequest request) {
         Order order = getOrder(id);
+        if (!order.getStatus().isEditable()) {
+            throw new AppException(ErrorCode.ORDER_NOT_EDITABLE);
+        }
+
         order.setCustomer(getCustomer(request.getCustomerId()));
         order.setReceiverName(request.getReceiverName());
         order.setReceiverPhone(request.getReceiverPhone());
@@ -157,8 +160,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private void validateStatusChange(OrderStatus oldStatus, OrderStatus newStatus) {
-        if (newStatus == null || Objects.equals(oldStatus, newStatus)
-                || oldStatus == OrderStatus.COMPLETED) {
+        if (oldStatus == null || !oldStatus.canTransitionTo(newStatus)) {
             throw new AppException(ErrorCode.INVALID_ORDER_STATUS);
         }
     }
