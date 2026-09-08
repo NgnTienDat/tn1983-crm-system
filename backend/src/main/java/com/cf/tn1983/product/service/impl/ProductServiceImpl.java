@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +29,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
+    @PreAuthorize ("hasRole('ADMIN')")
     public ProductResponse create(CreateProductRequest request) {
         validateUniqueName(request.getName());
 
@@ -37,6 +40,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public ProductResponse update(UUID id, UpdateProductRequest request) {
         Product product = getProduct(id);
 
@@ -49,25 +53,33 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public ProductResponse getById(UUID id) {
         return productMapper.toResponse(getProduct(id));
-    }
+    } 
 
     @Override
-    public List<ProductResponse> getAll() {
-        return productRepository.findAllByActiveTrue().stream()
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<ProductResponse> getAll(Boolean active) {
+        List<Product> products = active == null
+            ? productRepository.findAll()
+            : productRepository.findAllByActive(active);
+
+        return products.stream()
                 .map(productMapper::toResponse)
                 .toList();
     }
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public void delete(UUID id) {
         Product product = getProduct(id);
         product.setActive(false);
         productRepository.save(product);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     private Product getProduct(UUID id) {
         return productRepository.findByIdAndActiveTrue(id)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));

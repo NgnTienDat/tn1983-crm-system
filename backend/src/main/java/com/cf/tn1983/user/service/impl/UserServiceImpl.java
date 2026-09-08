@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public UserResponse update(UUID id, UpdateUserRequest request) {
         User user = getUser(id);
 
@@ -58,11 +59,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public UserResponse getById(UUID id) {
         return userMapper.toResponse(getUser(id));
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public List<UserResponse> getAll() {
         return userRepository.findAll().stream()
                 .map(userMapper::toResponse)
@@ -71,12 +74,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public void delete(UUID id) {
         User user = getUser(id);
         user.setActive(false);
         userRepository.save(user);
     }
 
+
+    @PreAuthorize("hasRole('ADMIN')")
     private User getUser(UUID id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));

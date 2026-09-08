@@ -15,7 +15,7 @@ public interface ProductService {
 
     ProductResponse getById(UUID id);
 
-    List<ProductResponse> getAll();
+    List<ProductResponse> getAll(Boolean active);
 
     void delete(UUID id);
 }

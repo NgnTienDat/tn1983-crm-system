@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 
 /** Centralized translation of application exceptions into API responses. */
 @RestControllerAdvice
@@ -32,6 +33,19 @@ public class GlobalExceptionHandler {
                 .filter(Objects::nonNull)
                 .findFirst()
                 .orElse(ErrorCode.VALIDATION_ERROR.getMessage());
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse.error(ErrorCode.VALIDATION_ERROR.getCode(), message));
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiResponse<Void>> handleUnreadableMessage(
+            HttpMessageNotReadableException exception) {
+        String message = exception.getMessage() != null
+                && exception.getMessage().contains("ProductType")
+                ? "Invalid product type"
+                : ErrorCode.VALIDATION_ERROR.getMessage();
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
