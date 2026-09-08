@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /** REST endpoints for product CRUD operations. */
@@ -36,9 +37,10 @@ public class ProductController {
     }
 
     @GetMapping
-    @Operation(summary = "Lấy danh sách sản phẩm đang hoạt động")
-    public ApiResponse<List<ProductResponse>> getAll() {
-        return ApiResponse.success(productService.getAll());
+    @Operation(summary = "Lấy danh sách sản phẩm")
+    public ApiResponse<List<ProductResponse>> getAll(
+            @RequestParam(required = false) Boolean active) {
+        return ApiResponse.success(productService.getAll(active));
     }
 
     @GetMapping("/{id}")

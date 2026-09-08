@@ -23,7 +23,7 @@ security:
   jwt:
     access-secret: ${JWT_ACCESS_SECRET:${JWT_SECRET:change-this-development-access-secret-key-32}}
     refresh-secret: ${JWT_REFRESH_SECRET:${JWT_SECRET:change-this-development-refresh-secret-key-32}}
-    access-token-expiration: ${JWT_ACCESS_EXPIRATION:300000}
+    access-token-expiration: ${JWT_ACCESS_EXPIRATION:3600000}
     refresh-token-expiration: ${JWT_REFRESH_EXPIRATION:2592000000}
   admin:
     phone: ${ADMIN_PHONE:0900000000}

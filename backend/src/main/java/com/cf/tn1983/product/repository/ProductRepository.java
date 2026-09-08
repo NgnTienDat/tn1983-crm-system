@@ -11,7 +11,7 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
 
     Optional<Product> findByIdAndActiveTrue(UUID id);
 
-    List<Product> findAllByActiveTrue();
+    List<Product> findAllByActive(Boolean active);
 
     boolean existsByNameAndActiveTrue(String name);
 }
