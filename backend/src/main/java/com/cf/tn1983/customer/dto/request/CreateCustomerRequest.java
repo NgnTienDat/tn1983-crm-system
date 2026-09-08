@@ -19,9 +19,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CreateCustomerRequest {
 
-    @NotBlank(message = "Customer code is required")
-    @Schema(description = "Mã khách hàng", example = "TN")
-    private String customerCode;
+    // @NotBlank(message = "Customer code is required")
+    // @Schema(description = "Mã khách hàng", example = "TN")
+    // private String customerCode;
 
     @NotBlank(message = "Customer name is required")
     @Schema(description = "Tên khách hàng", example = "Cửa hàng TN Coffee")

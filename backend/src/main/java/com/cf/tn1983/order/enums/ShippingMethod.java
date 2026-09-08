@@ -1,4 +1,4 @@
-package com.cf.tn1983.order;
+package com.cf.tn1983.order.enums;
 
 /** Method used to deliver or collect an order. */
 public enum ShippingMethod {

@@ -1,11 +1,12 @@
 package com.cf.tn1983.order.controller;
 
 import com.cf.tn1983.common.response.ApiResponse;
-import com.cf.tn1983.order.OrderStatus;
 import com.cf.tn1983.order.dto.request.ChangeOrderStatusRequest;
 import com.cf.tn1983.order.dto.request.CreateOrderRequest;
 import com.cf.tn1983.order.dto.request.UpdateOrderRequest;
-import com.cf.tn1983.order.dto.response.OrderResponse;
+import com.cf.tn1983.order.dto.response.OrderDetailResponse;
+import com.cf.tn1983.order.dto.response.OrderSummaryResponse;
+import com.cf.tn1983.order.enums.OrderStatus;
 import com.cf.tn1983.order.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -35,13 +36,13 @@ public class OrderController {
 
     @PostMapping
     @Operation(summary = "Tạo đơn hàng mới")
-    public ApiResponse<OrderResponse> create(@Valid @RequestBody CreateOrderRequest request) {
+    public ApiResponse<OrderDetailResponse> create(@Valid @RequestBody CreateOrderRequest request) {
         return ApiResponse.success(orderService.create(request));
     }
 
     @GetMapping
     @Operation(summary = "Tìm kiếm danh sách đơn hàng")
-    public ApiResponse<List<OrderResponse>> search(
+    public ApiResponse<List<OrderSummaryResponse>> search(
             @RequestParam(required = false) OrderStatus status,
             @RequestParam(required = false) UUID customerId,
             @RequestParam(required = false) String keyword) {
@@ -50,19 +51,19 @@ public class OrderController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Lấy chi tiết đơn hàng theo mã định danh")
-    public ApiResponse<OrderResponse> getById(@PathVariable UUID id) {
+    public ApiResponse<OrderDetailResponse> getById(@PathVariable UUID id) {
         return ApiResponse.success(orderService.getById(id));
     }
 
     @GetMapping("/code/{orderCode}")
     @Operation(summary = "Tra cứu đơn hàng theo mã nghiệp vụ")
-    public ApiResponse<OrderResponse> getByCode(@PathVariable String orderCode) {
+    public ApiResponse<OrderDetailResponse> getByCode(@PathVariable String orderCode) {
         return ApiResponse.success(orderService.getByCode(orderCode));
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Cập nhật thông tin đơn hàng")
-    public ApiResponse<OrderResponse> update(
+    public ApiResponse<OrderDetailResponse> update(
             @PathVariable UUID id,
             @Valid @RequestBody UpdateOrderRequest request) {
         return ApiResponse.success(orderService.update(id, request));
@@ -70,7 +71,7 @@ public class OrderController {
 
     @PatchMapping("/{id}/status")
     @Operation(summary = "Cập nhật trạng thái đơn hàng")
-    public ApiResponse<OrderResponse> changeStatus(
+    public ApiResponse<OrderDetailResponse> changeStatus(
             @PathVariable UUID id,
             @Valid @RequestBody ChangeOrderStatusRequest request) {
         return ApiResponse.success(orderService.changeStatus(id, request));

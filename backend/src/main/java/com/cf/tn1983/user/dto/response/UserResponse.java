@@ -1,7 +1,7 @@
 package com.cf.tn1983.user.dto.response;
 
 import com.cf.tn1983.user.UserRole;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,5 +37,5 @@ public class UserResponse {
     private Boolean active;
 
     @Schema(description = "Thời điểm tạo tài khoản", example = "2026-09-07T10:15:30")
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 }

@@ -44,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponse update(UUID id, UpdateProductRequest request) {
         Product product = getProduct(id);
 
-        if (!Objects.equals(request.getName(), product.getName())) {
+        if (request.getName() != null && !Objects.equals(request.getName(), product.getName())) {
             validateUniqueName(request.getName());
         }
 

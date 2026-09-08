@@ -3,7 +3,7 @@ package com.cf.tn1983.product.dto.response;
 import com.cf.tn1983.product.ProductType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,5 +35,5 @@ public class ProductResponse {
     private Boolean active;
 
     @Schema(description = "Thời điểm tạo sản phẩm", example = "2026-09-07T10:15:30")
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 }

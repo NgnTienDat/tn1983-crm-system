@@ -2,6 +2,10 @@ package com.cf.tn1983.order;
 
 import com.cf.tn1983.common.entity.BaseEntity;
 import com.cf.tn1983.customer.Customer;
+import com.cf.tn1983.order.enums.OrderSource;
+import com.cf.tn1983.order.enums.OrderStatus;
+import com.cf.tn1983.order.enums.ShippingMethod;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

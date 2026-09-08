@@ -2,7 +2,7 @@ package com.cf.tn1983.customer.dto.response;
 
 import com.cf.tn1983.customer.CustomerType;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,9 +20,6 @@ public class CustomerResponse {
 
     @Schema(description = "Mã định danh khách hàng", example = "550e8400-e29b-41d4-a716-446655440000")
     private UUID id;
-
-    @Schema(description = "Mã khách hàng", example = "TN")
-    private String customerCode;
 
     @Schema(description = "Tên khách hàng", example = "Cửa hàng TN Coffee")
     private String name;
@@ -43,5 +40,5 @@ public class CustomerResponse {
     private Boolean active;
 
     @Schema(description = "Thời điểm tạo khách hàng", example = "2026-09-07T10:15:30")
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 }

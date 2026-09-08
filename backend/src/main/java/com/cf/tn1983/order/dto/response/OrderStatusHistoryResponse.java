@@ -1,9 +1,12 @@
 package com.cf.tn1983.order.dto.response;
 
-import com.cf.tn1983.order.OrderStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
+
+import com.cf.tn1983.order.enums.OrderStatus;
+import com.cf.tn1983.user.dto.response.UserSummaryResponse;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,8 +31,8 @@ public class OrderStatusHistoryResponse {
     private String note;
 
     @Schema(description = "Thời điểm thay đổi", example = "2026-09-07T10:15:30")
-    private LocalDateTime changedAt;
+    private Instant changedAt;
 
-    @Schema(description = "Mã người thay đổi", example = "550e8400-e29b-41d4-a716-446655440000", nullable = true)
-    private UUID changedById;
+    @Schema(description = "Người thay đổi", nullable = true)
+    private UserSummaryResponse changedBy;
 }

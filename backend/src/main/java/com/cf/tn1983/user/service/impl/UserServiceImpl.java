@@ -81,10 +81,8 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-
-    @PreAuthorize("hasRole('ADMIN')")
     private User getUser(UUID id) {
-        return userRepository.findById(id)
+        return userRepository.findByIdAndActiveTrue(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
     }
 

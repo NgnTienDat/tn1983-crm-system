@@ -1,7 +1,5 @@
 package com.cf.tn1983.order.dto.request;
 
-import com.cf.tn1983.order.OrderSource;
-import com.cf.tn1983.order.ShippingMethod;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -9,6 +7,10 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
+
+import com.cf.tn1983.order.enums.OrderSource;
+import com.cf.tn1983.order.enums.ShippingMethod;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
