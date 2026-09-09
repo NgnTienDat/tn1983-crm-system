@@ -1,6 +1,7 @@
 package com.cf.tn1983.customer.controller;
 
 import com.cf.tn1983.common.response.ApiResponse;
+import com.cf.tn1983.common.response.PageResponse;
 import com.cf.tn1983.customer.dto.request.CreateCustomerRequest;
 import com.cf.tn1983.customer.dto.request.UpdateCustomerRequest;
 import com.cf.tn1983.customer.dto.response.CustomerResponse;
@@ -8,16 +9,16 @@ import com.cf.tn1983.customer.service.CustomerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /** REST endpoints for customer CRUD operations. */
@@ -37,8 +38,11 @@ public class CustomerController {
 
     @GetMapping
     @Operation(summary = "Lấy danh sách khách hàng đang hoạt động")
-    public ApiResponse<List<CustomerResponse>> getAll() {
-        return ApiResponse.success(customerService.getAll());
+    public ApiResponse<PageResponse<CustomerResponse>> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String q) {
+        return ApiResponse.success(customerService.getAll(page, size, q));
     }
 
     @GetMapping("/{id}")
@@ -47,7 +51,7 @@ public class CustomerController {
         return ApiResponse.success(customerService.getById(id));
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     @Operation(summary = "Cập nhật thông tin khách hàng")
     public ApiResponse<CustomerResponse> update(
             @PathVariable UUID id,

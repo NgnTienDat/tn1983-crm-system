@@ -29,13 +29,15 @@ security:
     refresh-secret: ${JWT_REFRESH_SECRET:${JWT_SECRET:change-this-development-refresh-secret-key-32}}
     access-token-expiration: ${JWT_ACCESS_EXPIRATION:3600000}
     refresh-token-expiration: ${JWT_REFRESH_EXPIRATION:2592000000}
+    refresh-cookie-secure: ${JWT_REFRESH_COOKIE_SECURE:false}
+    refresh-cookie-same-site: ${JWT_REFRESH_COOKIE_SAME_SITE:Strict}
   admin:
     phone: ${ADMIN_PHONE:0900000000}
     password: ${ADMIN_PASSWORD:admin123}
 
 app:
   cors:
-    allowed-origins: "*"   # dev
+    allowed-origins: http://localhost:5173   # dev
     # allowed-origins: https://trongnhamcoffee.me                      # prod
 
 rate-limit:
