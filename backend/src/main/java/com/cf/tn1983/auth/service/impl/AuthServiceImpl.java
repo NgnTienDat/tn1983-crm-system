@@ -110,8 +110,8 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserResponse currentUser(String phone) {
-        return userRepository.findByPhone(phone)
+    public UserResponse currentUser(String userId) {
+        return userRepository.findById(UUID.fromString(userId))
                 .filter(found -> Boolean.TRUE.equals(found.getActive()))
                 .map(userMapper::toResponse)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
