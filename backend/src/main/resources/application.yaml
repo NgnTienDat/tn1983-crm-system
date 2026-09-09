@@ -38,3 +38,17 @@ app:
     allowed-origins: "*"   # dev
     # allowed-origins: https://trongnhamcoffee.me                      # prod
 
+rate-limit:
+  auth:
+    capacity: 30
+    refill: 30
+    duration: 1m
+  tracking:
+    capacity: 30
+    refill: 30
+    duration: 1m
+  admin:
+    capacity: 300
+    refill: 300
+    duration: 1m
+

@@ -14,5 +14,5 @@ public interface AuthService {
 
     void logout(String authorizationHeader, LogoutRequest request);
 
-    UserResponse currentUser(String phone);
+    UserResponse currentUser(String userId);
 }

@@ -32,7 +32,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private UserDetails toPrincipal(User user) {
         return org.springframework.security.core.userdetails.User
-                .withUsername(user.getPhone())
+            .withUsername(user.getId().toString())
                 .password(user.getPassword())
                 .authorities("ROLE_" + user.getRole().name())
                 .disabled(!Boolean.TRUE.equals(user.getActive()))

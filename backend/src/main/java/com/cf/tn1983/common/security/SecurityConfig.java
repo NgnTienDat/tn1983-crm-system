@@ -20,6 +20,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import com.cf.tn1983.common.exception.RestAccessDeniedHandler;
 import com.cf.tn1983.common.exception.RestAuthenticationEntryPoint;
 import com.cf.tn1983.common.security.jwt.JwtAuthenticationFilter;
+import com.cf.tn1983.common.ratelimit.RateLimitingFilter;
 
 @Configuration
 @EnableMethodSecurity
@@ -34,6 +35,7 @@ public class SecurityConfig {
         public SecurityFilterChain securityFilterChain(
                         HttpSecurity http,
                         JwtAuthenticationFilter jwtAuthenticationFilter,
+                        RateLimitingFilter rateLimitingFilter,
                         RestAuthenticationEntryPoint authenticationEntryPoint,
                         RestAccessDeniedHandler accessDeniedHandler) throws Exception {
                 return http
@@ -52,6 +54,7 @@ public class SecurityConfig {
                                                 .authenticationEntryPoint(authenticationEntryPoint)
                                                 .accessDeniedHandler(accessDeniedHandler))
                                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                                .addFilterAfter(rateLimitingFilter, JwtAuthenticationFilter.class)
                                 .build();
         }
 
