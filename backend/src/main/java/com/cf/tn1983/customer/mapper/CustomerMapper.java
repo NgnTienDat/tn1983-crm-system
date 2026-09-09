@@ -5,8 +5,10 @@ import com.cf.tn1983.customer.dto.request.CreateCustomerRequest;
 import com.cf.tn1983.customer.dto.request.UpdateCustomerRequest;
 import com.cf.tn1983.customer.dto.response.CustomerResponse;
 import org.mapstruct.Mapper;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 /** Maps customer API DTOs to and from the Customer entity. */
 @Mapper(componentModel = "spring")
@@ -21,5 +23,6 @@ public interface CustomerMapper {
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "active", ignore = true)
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateCustomer(UpdateCustomerRequest request, @MappingTarget Customer customer);
 }

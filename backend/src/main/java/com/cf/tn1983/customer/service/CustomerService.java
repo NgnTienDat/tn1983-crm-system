@@ -3,7 +3,7 @@ package com.cf.tn1983.customer.service;
 import com.cf.tn1983.customer.dto.request.CreateCustomerRequest;
 import com.cf.tn1983.customer.dto.request.UpdateCustomerRequest;
 import com.cf.tn1983.customer.dto.response.CustomerResponse;
-import java.util.List;
+import com.cf.tn1983.common.response.PageResponse;
 import java.util.UUID;
 
 /** Application operations for managing customers. */
@@ -15,7 +15,7 @@ public interface CustomerService {
 
     CustomerResponse getById(UUID id);
 
-    List<CustomerResponse> getAll();
+    PageResponse<CustomerResponse> getAll(int page, int size, String keyword);
 
     void delete(UUID id);
 }

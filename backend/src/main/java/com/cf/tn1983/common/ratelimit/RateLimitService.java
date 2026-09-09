@@ -30,11 +30,11 @@ public class RateLimitService {
         }
 
         String key = resolveKey(group, request, authentication);
-        log.info(
-                "group={}, key={}, auth={}",
-                group.name(),
-                key,
-                authentication != null);
+        // log.info(
+        //         "group={}, key={}, auth={}",
+        //         group.name(),
+        //         key,
+        //         authentication != null);
         BucketEntry entry = bucketStore.getOrCreate(key, group);
         ConsumptionProbe probe = entry.getBucket().tryConsumeAndReturnRemaining(1);
         entry.touch();

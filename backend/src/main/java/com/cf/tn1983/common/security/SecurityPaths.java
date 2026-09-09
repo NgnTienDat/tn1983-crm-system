@@ -8,6 +8,8 @@ public final class SecurityPaths {
 
     public static final String[] PUBLIC = {
             "/api/v1/auth/login",
+            "/api/v1/auth/refresh",
+            "/api/v1/auth/logout",
             "/api/v1/orders/code/**",
             "/swagger-ui.html",
             "/swagger-ui/**",
@@ -20,6 +22,7 @@ public final class SecurityPaths {
     }
 
     public static final String[] JWT_BYPASS_PATHS = {
-            "/api/v1/auth/refresh"
+            "/api/v1/auth/refresh",
+            "/api/v1/auth/logout"
     };
 }

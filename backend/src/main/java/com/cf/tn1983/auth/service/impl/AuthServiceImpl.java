@@ -1,8 +1,7 @@
 package com.cf.tn1983.auth.service.impl;
 
 import com.cf.tn1983.auth.dto.LoginRequest;
-import com.cf.tn1983.auth.dto.LogoutRequest;
-import com.cf.tn1983.auth.dto.RefreshTokenRequest;
+import com.cf.tn1983.auth.dto.AuthTokenResult;
 import com.cf.tn1983.auth.dto.TokenResponse;
 import com.cf.tn1983.auth.repository.BlacklistedTokenRepository;
 import com.cf.tn1983.auth.repository.RefreshTokenRepository;
@@ -42,7 +41,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public TokenResponse login(LoginRequest request) {
+    public AuthTokenResult login(LoginRequest request) {
         User user = userRepository.findByPhone(request.getPhone())
                 .filter(found -> Boolean.TRUE.equals(found.getActive()))
                 .filter(found -> passwordEncoder.matches(request.getPassword(), found.getPassword()))
@@ -52,8 +51,8 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional(noRollbackFor = AppException.class)
-    public TokenResponse refresh(RefreshTokenRequest request) {
-        Claims claims = parseRefresh(request.getRefreshToken());
+    public AuthTokenResult refresh(String refreshToken) {
+        Claims claims = parseRefresh(refreshToken);
         String tokenId = claims.get("tokenId", String.class);
         RefreshToken current = refreshTokenRepository.findByTokenIdForUpdate(tokenId)
                 .orElseThrow(() -> new AppException(ErrorCode.UNAUTHORIZED));
@@ -79,7 +78,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public void logout(String authorizationHeader, LogoutRequest request) {
+    public void logout(String authorizationHeader, String refreshToken) {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             try {
                 Claims claims = jwtService.parseAccessToken(authorizationHeader.substring(7));
@@ -94,9 +93,9 @@ public class AuthServiceImpl implements AuthService {
                 // Logout remains idempotent for an expired or malformed access token.
             }
         }
-        if (request != null && request.getRefreshToken() != null) {
+        if (refreshToken != null) {
             try {
-                Claims claims = parseRefresh(request.getRefreshToken());
+            Claims claims = parseRefresh(refreshToken);
                 refreshTokenRepository.findByTokenId(claims.get("tokenId", String.class))
                         .ifPresent(token -> {
                             token.setRevoked(true);
@@ -118,7 +117,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     // Generates and persists a new access token and refresh token for the given user. The parentTokenId is used to link the new refresh token to its parent in the token family, and the familyId is used to group related tokens together. If familyId is null, a new family is created with the new token as the root.
-    private TokenResponse issueTokens(User user, String parentTokenId, UUID familyId) {
+    private AuthTokenResult issueTokens(User user, String parentTokenId, UUID familyId) {
         String tokenId = UUID.randomUUID().toString();
         UUID rootFamilyId = familyId == null ? UUID.fromString(tokenId) : familyId;
         String accessToken = jwtService.generateAccessToken(user);
@@ -134,12 +133,13 @@ public class AuthServiceImpl implements AuthService {
                 .used(false)
                 .revoked(false)
                 .build());
-        return TokenResponse.builder()
+        TokenResponse response = TokenResponse.builder()
                 .accessToken(accessToken)
-                .refreshToken(refreshToken)
                 .tokenType("Bearer")
                 .expiresIn(jwtService.getAccessTokenExpiration())
+            .user(userMapper.toResponse(user))
                 .build();
+        return new AuthTokenResult(response, refreshToken);
     }
 
     private Claims parseRefresh(String token) {
