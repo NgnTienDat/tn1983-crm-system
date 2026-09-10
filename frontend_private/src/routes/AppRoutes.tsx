@@ -42,6 +42,7 @@ export function AppRoutes() {
   const currentUserQuery = useCurrentUser()
   const logoutMutation = useLogout()
   const accessToken = useAuthStore((state) => state.accessToken)
+  const authUser = useAuthStore((state) => state.user)
   const [sessionStatus, setSessionStatus] = useState<SessionStatus>('idle')
   const restoreStarted = useRef(false)
 
@@ -72,6 +73,7 @@ export function AppRoutes() {
   useEffect(() => {
     if (path !== '/login' && !accessToken && sessionStatus === 'idle' && !restoreStarted.current) {
       restoreStarted.current = true
+      setSessionStatus('restoring')
       refreshAccessToken()
         .then(() => setSessionStatus('restored'))
         .catch(() => setSessionStatus('failed'))
@@ -79,10 +81,10 @@ export function AppRoutes() {
   }, [accessToken, path, sessionStatus])
 
   useEffect(() => {
-    if (path !== '/login' && (currentUserQuery.isError || sessionStatus === 'failed')) {
+    if (path !== '/login' && !accessToken && (currentUserQuery.error?.status === 401 || sessionStatus === 'failed')) {
       startTransition(() => navigate('/login'))
     }
-  }, [currentUserQuery.isError, navigate, path, sessionStatus])
+  }, [accessToken, currentUserQuery.error, navigate, path, sessionStatus])
 
   if (path === '/login') {
     return <LoginPage onLogin={handleLogin} />
@@ -102,9 +104,9 @@ export function AppRoutes() {
   if (
     sessionStatus === 'restoring' ||
     !accessToken ||
-    currentUserQuery.isPending ||
-    currentUserQuery.isError ||
-    !currentUserQuery.data
+    (!authUser && currentUserQuery.isPending) ||
+    (!authUser && currentUserQuery.isError) ||
+    !authUser
   ) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-gray-100 text-sm text-gray-600">

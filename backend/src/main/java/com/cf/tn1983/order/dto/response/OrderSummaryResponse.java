@@ -25,5 +25,7 @@ public class OrderSummaryResponse {
     private String receiverName;
     private BigDecimal totalAmount;
     private OrderStatus status;
+    private boolean editable;
+    private java.util.List<OrderStatus> allowedNextStatuses;
     private Instant createdAt;
 }

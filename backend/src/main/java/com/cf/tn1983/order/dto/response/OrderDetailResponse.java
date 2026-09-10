@@ -32,6 +32,8 @@ public class OrderDetailResponse {
     private ShippingMethod shippingMethod;
     private BigDecimal totalAmount;
     private OrderStatus status;
+    private boolean editable;
+    private List<OrderStatus> allowedNextStatuses;
     private String note;
     private List<OrderItemResponse> items;
     private List<OrderStatusHistoryResponse> statusHistory;

@@ -1,6 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useState } from 'react'
 import { useForm, type SubmitHandler, type UseFormRegister } from 'react-hook-form'
+import { BaseModal } from '../../components/common/BaseModal.tsx'
+import { ConfirmDialog } from '../../components/common/ConfirmDialog.tsx'
 import { customerSchema, type CustomerFormValues } from './customerSchema.ts'
 import type { Customer } from './customer.types.ts'
 import { useCreateCustomer } from './useCreateCustomer.ts'
@@ -251,20 +253,7 @@ export function CustomerListPage() {
       )}
 
       {(selectedCustomer || isCreating) && (
-        <div className="fixed inset-0 z-10 flex items-center justify-center bg-gray-900/40 px-4 py-6" role="presentation">
-          <div aria-labelledby="customer-modal-title" aria-modal="true" className="max-h-full w-full max-w-2xl overflow-y-auto border border-gray-300 bg-white p-6" role="dialog">
-            <div className="flex items-start justify-between gap-4 border-b border-gray-200 pb-4">
-              <div>
-                <h3 className="text-lg font-semibold" id="customer-modal-title">
-                  {isCreating ? 'Thêm khách hàng' : isEditing ? 'Chỉnh sửa khách hàng' : 'Thông tin khách hàng'}
-                </h3>
-                {!isCreating && <p className="mt-1 text-sm text-gray-600">ID không thể chỉnh sửa.</p>}
-              </div>
-              <button className="text-sm text-gray-600 underline underline-offset-4 hover:text-gray-950" onClick={closeCustomer} type="button">
-                Đóng
-              </button>
-            </div>
-
+        <BaseModal onClose={closeCustomer} title={isCreating ? 'Thêm khách hàng' : isEditing ? 'Chỉnh sửa khách hàng' : 'Thông tin khách hàng'}>
             <form className="mt-5 space-y-4" noValidate onSubmit={handleSubmit(onSubmit)}>
               {!isCreating && selectedCustomer && <ReadonlyField label="ID" value={selectedCustomer.id} />}
               <div className="grid gap-4 sm:grid-cols-2">
@@ -318,26 +307,11 @@ export function CustomerListPage() {
                 )}
               </div>
             </form>
-          </div>
-        </div>
+        </BaseModal>
       )}
 
       {deleteTarget && (
-        <div className="fixed inset-0 z-20 flex items-center justify-center bg-gray-900/40 px-4" role="presentation">
-          <div aria-labelledby="delete-customer-title" aria-modal="true" className="w-full max-w-md border border-gray-300 bg-white p-6" role="dialog">
-            <h3 className="text-lg font-semibold" id="delete-customer-title">Xóa khách hàng?</h3>
-            <p className="mt-2 text-sm text-gray-600">Khách hàng “{deleteTarget.name}” sẽ được ngừng hoạt động.</p>
-            {deleteCustomer.isError && <p className="mt-3 text-sm text-red-700" role="alert">{deleteCustomer.error.message}</p>}
-            <div className="mt-6 flex justify-end gap-3">
-              <button className="border border-gray-300 px-4 py-2 text-sm hover:bg-gray-100" disabled={deleteCustomer.isPending} onClick={() => setDeleteTarget(null)} type="button">
-                Hủy
-              </button>
-              <button className="bg-red-700 px-4 py-2 text-sm font-medium text-white hover:bg-red-800 disabled:bg-gray-400" disabled={deleteCustomer.isPending} onClick={confirmDelete} type="button">
-                {deleteCustomer.isPending ? 'Đang xóa...' : 'Xóa'}
-              </button>
-            </div>
-          </div>
-        </div>
+        <ConfirmDialog error={deleteCustomer.error?.message} isPending={deleteCustomer.isPending} message={`Khách hàng “${deleteTarget.name}” sẽ được ngừng hoạt động.`} onCancel={() => setDeleteTarget(null)} onConfirm={confirmDelete} title="Xóa khách hàng?" />
       )}
     </section>
   )

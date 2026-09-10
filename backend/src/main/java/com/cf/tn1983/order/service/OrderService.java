@@ -6,8 +6,8 @@ import com.cf.tn1983.order.dto.request.UpdateOrderRequest;
 import com.cf.tn1983.order.dto.response.OrderDetailResponse;
 import com.cf.tn1983.order.dto.response.OrderSummaryResponse;
 import com.cf.tn1983.order.enums.OrderStatus;
+import com.cf.tn1983.common.response.PageResponse;
 
-import java.util.List;
 import java.util.UUID;
 
 /** Application operations for managing orders. */
@@ -21,7 +21,7 @@ public interface OrderService {
 
     OrderDetailResponse getByCode(String orderCode);
 
-    List<OrderSummaryResponse> search(OrderStatus status, UUID customerId, String keyword);
+    PageResponse<OrderSummaryResponse> search(int page, int size, OrderStatus status, UUID customerId, String keyword);
 
     OrderDetailResponse changeStatus(UUID id, ChangeOrderStatusRequest request);
 

@@ -2,6 +2,7 @@ package com.cf.tn1983.order.service.impl;
 
 import com.cf.tn1983.common.exception.AppException;
 import com.cf.tn1983.common.exception.ErrorCode;
+import com.cf.tn1983.common.response.PageResponse;
 import com.cf.tn1983.customer.Customer;
 import com.cf.tn1983.customer.repository.CustomerRepository;
 import com.cf.tn1983.order.Order;
@@ -28,6 +29,8 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -76,14 +79,30 @@ public class OrderServiceImpl implements OrderService {
             throw new AppException(ErrorCode.ORDER_NOT_EDITABLE);
         }
 
-        order.setCustomer(getCustomer(request.getCustomerId()));
-        order.setReceiverName(request.getReceiverName());
-        order.setReceiverPhone(request.getReceiverPhone());
-        order.setReceiverAddress(request.getReceiverAddress());
-        order.setSource(request.getSource());
-        order.setShippingMethod(request.getShippingMethod());
-        order.setNote(request.getNote());
-        replaceItems(order, request.getItems());
+        if (request.getCustomerId() != null) {
+            order.setCustomer(getCustomer(request.getCustomerId()));
+        }
+        if (request.getReceiverName() != null) {
+            order.setReceiverName(request.getReceiverName());
+        }
+        if (request.getReceiverPhone() != null) {
+            order.setReceiverPhone(request.getReceiverPhone());
+        }
+        if (request.getReceiverAddress() != null) {
+            order.setReceiverAddress(request.getReceiverAddress());
+        }
+        if (request.getSource() != null) {
+            order.setSource(request.getSource());
+        }
+        if (request.getShippingMethod() != null) {
+            order.setShippingMethod(request.getShippingMethod());
+        }
+        if (request.getNote() != null) {
+            order.setNote(request.getNote());
+        }
+        if (request.getItems() != null) {
+            replaceItems(order, request.getItems());
+        }
         return orderMapper.toDetailResponse(orderRepository.save(order));
     }
 
@@ -99,11 +118,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderSummaryResponse> search(OrderStatus status, UUID customerId, String keyword) {
-        String normalizedKeyword = keyword == null || keyword.isBlank() ? "" : keyword.trim();
-        return orderRepository.searchActive(status, customerId, normalizedKeyword).stream()
-            .map(orderMapper::toSummaryResponse)
-                .toList();
+    public PageResponse<OrderSummaryResponse> search(int page, int size, OrderStatus status, UUID customerId, String keyword) {
+        var pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        var orders = orderRepository.searchActive(status, customerId, normalizeKeyword(keyword), pageable);
+        return PageResponse.from(orders.map(orderMapper::toSummaryResponse));
     }
 
     @Override
@@ -157,6 +175,13 @@ public class OrderServiceImpl implements OrderService {
     private Customer getCustomer(UUID id) {
         return customerRepository.findByIdAndActiveTrue(id)
                 .orElseThrow(() -> new AppException(ErrorCode.CUSTOMER_NOT_FOUND));
+    }
+
+    private String normalizeKeyword(String keyword) {
+        if (keyword == null || keyword.isBlank()) {
+            return null;
+        }
+        return keyword.trim();
     }
 
     private void validateStatusChange(OrderStatus oldStatus, OrderStatus newStatus) {
