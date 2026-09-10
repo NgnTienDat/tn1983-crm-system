@@ -39,11 +39,9 @@ export async function refreshAccessToken(): Promise<string> {
 	if (!refreshPromise) {
 		refreshPromise = refreshClient
 			.post<ApiResponse<LoginResponse>>('/api/v1/auth/refresh')
-			.then((response) => {
+	        .then((response) => {
 				const accessToken = response.data.data.accessToken
-				const { setAccessToken, setUser } = useAuthStore.getState()
-				setAccessToken(accessToken)
-				setUser(response.data.data.user)
+					useAuthStore.getState().setAuth(accessToken, response.data.data.user)
 				return accessToken
 			})
 			.catch((error: unknown) => {

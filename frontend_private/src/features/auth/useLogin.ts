@@ -11,8 +11,8 @@ export function useLogin() {
   return useMutation<LoginResponse, ApiError, LoginRequest>({
     mutationFn: async (request) => {
       const loginResponse = await authApi.login(request)
-      useAuthStore.getState().setAccessToken(loginResponse.accessToken)
-      useAuthStore.getState().setUser(loginResponse.user)
+      queryClient.removeQueries({ queryKey: QUERY_KEYS.CURRENT_USER })
+      useAuthStore.getState().setAuth(loginResponse.accessToken, loginResponse.user)
       queryClient.setQueryData(QUERY_KEYS.CURRENT_USER, loginResponse.user)
       return loginResponse
     },

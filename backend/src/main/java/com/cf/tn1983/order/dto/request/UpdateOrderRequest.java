@@ -2,9 +2,6 @@ package com.cf.tn1983.order.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,19 +22,15 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UpdateOrderRequest {
 
-    @NotNull(message = "Customer is required")
     @Schema(description = "Mã khách hàng", example = "550e8400-e29b-41d4-a716-446655440000")
     private UUID customerId;
 
-    @NotBlank(message = "Receiver name is required")
     @Schema(description = "Tên người nhận", example = "Nguyen Van A")
     private String receiverName;
 
-    @NotBlank(message = "Receiver phone is required")
     @Schema(description = "Số điện thoại người nhận", example = "0901234567")
     private String receiverPhone;
 
-    @NotBlank(message = "Receiver address is required")
     @Schema(description = "Địa chỉ nhận hàng", example = "123 Nguyen Trai, Ha Noi")
     private String receiverAddress;
 
@@ -51,7 +44,6 @@ public class UpdateOrderRequest {
     private String note;
 
     @Valid
-    @NotEmpty(message = "At least one order item is required")
     @Schema(description = "Danh sách sản phẩm trong đơn")
     private List<OrderItemRequest> items;
 }

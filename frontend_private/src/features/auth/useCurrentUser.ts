@@ -7,6 +7,7 @@ import { useAuthStore } from '../../store/authStore.ts'
 
 export function useCurrentUser() {
   const hasAccessToken = useAuthStore((state) => Boolean(state.accessToken))
+  const hasUser = useAuthStore((state) => Boolean(state.user))
 
   return useQuery<CurrentUser, ApiError>({
     queryKey: QUERY_KEYS.CURRENT_USER,
@@ -16,6 +17,6 @@ export function useCurrentUser() {
       return user
     },
     staleTime: 5 * 60 * 1000,
-    enabled: hasAccessToken,
+    enabled: hasAccessToken && !hasUser,
   })
 }
