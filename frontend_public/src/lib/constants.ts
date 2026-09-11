@@ -1,0 +1,1 @@
+export const TRACKING_ENDPOINT = "/orders/code";
