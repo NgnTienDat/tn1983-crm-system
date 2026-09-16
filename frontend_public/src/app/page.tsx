@@ -11,12 +11,12 @@ export function LandingPage() {
   return (
     <div className="w-full bg-brand-bg">
       <HeroSection />
-      <BenefitsSection />
+      {/* <BenefitsSection /> */}
       <ProductsSection />
       <AboutSection />
       <ProcessSection />
       <CustomerSegmentsSection />
-      <TrackingSection />
+      {/* <TrackingSection /> */}
       <ContactSection />
     </div>
   );

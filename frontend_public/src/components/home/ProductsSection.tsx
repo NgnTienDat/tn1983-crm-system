@@ -15,7 +15,7 @@ export function ProductsSection() {
         {/* Section Header */}
         <SectionHeader
           label="SẢN PHẨM NGUYÊN BẢN"
-          heading="Ba dòng cà phê phục vụ quán & gia đình"
+          heading="Ba dòng sản phẩm chính"
           description="Được rang bằng củi lửa mộc mạc, giữ trọn hương khói dịu và độ đậm đà nguyên bản đặc trưng của thủ phủ Đắk Lắk."
         />
 
@@ -34,10 +34,10 @@ export function ProductsSection() {
                 Đậm đà mộc mạc, bung nở tròn đều.
               </p>
               <p className="text-body-m text-brand-text-secondary/85 mb-s-16 leading-relaxed">
-                Hạt Robusta &amp; Arabica chọn lọc từ Đắk Lắk, rang củi nở tròn đều. Thích hợp cho quán tự xay hoặc pha máy espresso đậm vị.
+                Hạt Robusta / Arabica chọn lọc từ Đắk Lắk, rang củi nở tròn đều. Thích hợp cho quán tự xay hoặc pha máy espresso đậm vị.
               </p>
               <div className="inline-block px-s-12 py-s-4 rounded bg-brand-surface-elevated/70 border border-brand-border-subtle text-caption font-medium text-brand-text-secondary mb-s-24">
-                Quy cách: Gói 1kg (van 1 chiều giữ hương)
+                Quy cách: Gói 1kg
               </div>
             </div>
 
@@ -51,7 +51,7 @@ export function ProductsSection() {
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute bottom-s-12 left-s-12 bg-brand-bg/85 backdrop-blur-sm px-s-12 py-s-4 rounded-full text-caption font-medium text-brand-text-secondary border border-brand-border">
-                Robusta Buôn Ma Thuột &amp; Arabica chọn lọc
+                Robusta Buôn Ma Thuột / Arabica chọn lọc
               </div>
             </div>
 

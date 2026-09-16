@@ -31,13 +31,13 @@ export function HeroSection() {
           </span>
           <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-text-primary via-brand-text-primary to-brand-primary">
-            Hơn 40 năm giữ trọn vị mộc.
+            Hơn 40 năm giữ lửa.
           </span>
         </h1>
 
         {/* Subheadline */}
         <p className="text-body-l text-brand-text-secondary max-w-3xl mb-s-32 font-normal">
-          Xưởng rang gia đình gìn giữ nghề rang củi truyền thống, cung ứng nguồn cà phê mộc chất lượng ổn định cho quán cà phê và đại lý trên toàn quốc.
+          Xưởng rang gia đình gìn giữ nghề rang xay truyền thống, cung ứng nguồn cà phê chất lượng ổn định cho quán cà phê và khách hàng trên toàn quốc.
         </p>
 
         {/* CTA Grouping */}
@@ -53,7 +53,7 @@ export function HeroSection() {
               </span>
             }
           >
-            Nhận báo giá
+            Liên hệ
           </Button>
           <Button href="#bo-suu-tap" variant="secondary" size="lg" className="w-full sm:w-auto">
             Xem sản phẩm
@@ -62,38 +62,43 @@ export function HeroSection() {
 
         {/* 4 Practical Business Metrics Strip */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-s-16 w-full max-w-container pt-s-48 border-t border-brand-border text-left">
+
           <div className="p-s-24 rounded-2xl bg-brand-surface/70 border border-brand-border-subtle hover:border-brand-primary/40 transition-colors">
             <div className="text-heading-m text-brand-text-primary mb-s-8 font-semibold">
               Hơn 40 năm kinh nghiệm
             </div>
             <p className="text-caption text-brand-text-muted">
-              Gia đình gắn bó với cây cà phê Buôn Ma Thuột qua nhiều thế hệ.
+              Gia đình gắn bó với nghề rang cà phê qua nhiều thế hệ.
             </p>
           </div>
+
           <div className="p-s-24 rounded-2xl bg-brand-surface/70 border border-brand-border-subtle hover:border-brand-primary/40 transition-colors">
             <div className="text-heading-m text-brand-text-primary mb-s-8 font-semibold">
               Rang củi thủ công
             </div>
             <p className="text-caption text-brand-text-muted">
-              Nhiệt lửa củi tự nhiên, hạt nở tròn đều đượm vị mộc nguyên bản.
+              Kiểm soát nhiệt độ bằng kinh nghiệm thực tế để tạo hương vị ổn định cho từng mẻ rang.
             </p>
           </div>
+
           <div className="p-s-24 rounded-2xl bg-brand-surface/70 border border-brand-border-subtle hover:border-brand-primary/40 transition-colors">
             <div className="text-heading-m text-brand-text-primary mb-s-8 font-semibold">
-              Giao hàng toàn quốc
+              Hỗ trợ vận chuyển toàn quốc
             </div>
             <p className="text-caption text-brand-text-muted">
-              Cung ứng nhanh chóng, rang mới liên tục, cước phí tối ưu.
+              Linh hoạt gửi hàng qua bưu điện và các tuyến vận chuyển phù hợp với từng khu vực.
             </p>
           </div>
+
           <div className="p-s-24 rounded-2xl bg-brand-surface/70 border border-brand-border-subtle hover:border-brand-primary/40 transition-colors">
             <div className="text-heading-m text-brand-text-primary mb-s-8 font-semibold">
-              Phục vụ quán cà phê &amp; đại lý
+              Quán cà phê & đối tác phân phối
             </div>
             <p className="text-caption text-brand-text-muted">
-              Nguồn hàng ổn định dài lâu, giá sỉ tận xưởng nhiều ưu đãi.
+              Cung cấp nguồn cà phê ổn định cho quán cà phê, cửa hàng và các đối tác kinh doanh nhỏ lẻ.
             </p>
           </div>
+
         </div>
       </Container>
     </section>

@@ -4,14 +4,14 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 
 export function AboutSection() {
   return (
-    <section className="snap-section w-full bg-brand-bg py-s-96 border-b border-brand-border" id="cau-chuyen-xuo-ng">
+    <section className="snap-section w-full bg-brand-bg py-s-96 border-b border-brand-border" id="cau-chuyen-xuong">
       <Container>
         {/* Standardized Section Header */}
         <SectionHeader
           align="left"
           label="CHUYỆN NGHỀ GIA ĐÌNH"
-          heading="Nghề rang cà phê bằng củi lửa tại thủ phủ Buôn Ma Thuột"
-          description="Giữa thời đại công nghiệp hóa với những lò rang điện tự động, gia đình Trọng Nhâm vẫn chọn giữ lại ngọn lửa củi đượm nồng và cái tâm của người làm nghề."
+          heading="Nghề rang cà phê thủ công tại Buôn Ma Thuột"
+          description="Giữa thời đại công nghiệp hóa với những lò rang điện tự động, Cà phê Trọng Nhâm vẫn chọn giữ lại ngọn lửa củi đượm nồng và cái tâm của người làm nghề."
         />
 
         {/* Bento Story Layout */}
@@ -54,7 +54,7 @@ export function AboutSection() {
                 <span className="text-label uppercase tracking-wider">Uy tín làm nên thương hiệu</span>
               </div>
               <h3 className="text-heading-m text-brand-text-primary mb-s-12 font-semibold">
-                Bạn đồng hành tin cậy của các quán cà phê
+                Bạn đồng hành tin cậy của khách hàng
               </h3>
               <p className="text-body-m text-brand-text-secondary leading-relaxed">
                 Với hơn 70% khách hàng là chủ quán cà phê, chúng tôi hiểu rằng chất lượng đồng đều và giá thành hợp lý của từng mẻ rang chính là uy tín sống còn để giữ chân thực khách cho quán của bạn.
@@ -80,10 +80,10 @@ export function AboutSection() {
             format_quote
           </span>
           <blockquote className="text-heading-m text-brand-text-primary max-w-3xl mx-auto leading-relaxed mb-s-12 font-medium">
-            “Chúng tôi không quảng cáo hoa mỹ. Sự tin tưởng của các chủ quán cà phê suốt hàng chục năm qua là thước đo lớn nhất cho từng mẻ rang của gia đình.”
+            “Chúng tôi không quảng cáo hoa mỹ. Sự tin tưởng của khách hàng suốt hàng chục năm qua là thước đo lớn nhất cho từng mẻ rang của chúng tôi.”
           </blockquote>
           <p className="text-label text-brand-primary uppercase tracking-widest">
-            — Gia đình Cà phê Trọng Nhâm
+            — Cà phê Trọng Nhâm —
           </p>
         </div>
       </Container>

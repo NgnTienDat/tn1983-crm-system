@@ -23,14 +23,17 @@ export function Header() {
           <Link className="text-body-m text-brand-text-secondary hover:text-brand-text-primary transition-colors font-medium" href="/#bo-suu-tap">
             Sản phẩm
           </Link>
-          <Link className="text-body-m text-brand-text-secondary hover:text-brand-text-primary transition-colors font-medium" href="/#cau-chuyen-xuo-ng">
+          <Link className="text-body-m text-brand-text-secondary hover:text-brand-text-primary transition-colors font-medium" href="/#cau-chuyen-xuong">
             Câu chuyện xưởng
           </Link>
           <Link className="text-body-m text-brand-text-secondary hover:text-brand-text-primary transition-colors font-medium" href="/#quy-trinh-rang">
             Quy trình rang
           </Link>
           <Link className="text-body-m text-brand-text-secondary hover:text-brand-text-primary transition-colors font-medium" href="/#khach-hang-dai-ly">
-            Khách hàng &amp; Đại lý
+            Khách hàng
+          </Link>
+          <Link className="text-body-m text-brand-text-secondary hover:text-brand-text-primary transition-colors font-medium" href="/tracking">
+            Tra cứu đơn hàng
           </Link>
           <Link className="text-body-m text-brand-text-secondary hover:text-brand-text-primary transition-colors font-medium" href="/#lien-he">
             Liên hệ
