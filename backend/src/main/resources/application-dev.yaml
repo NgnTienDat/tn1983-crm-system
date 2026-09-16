@@ -1,0 +1,32 @@
+# src/main/resources/application-dev.yml
+# Mặc định cho máy local. File này CÓ THỂ commit vì không chứa secret thật.
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/tn1983_crm}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+security:
+  jwt:
+    access-secret: ${JWT_ACCESS_SECRET:dev-only-access-secret-key-at-least-32-chars}
+    refresh-secret: ${JWT_REFRESH_SECRET:dev-only-refresh-secret-key-at-least-32-chars}
+    refresh-cookie-secure: ${JWT_REFRESH_COOKIE_SECURE:false}
+    refresh-cookie-same-site: ${JWT_REFRESH_COOKIE_SAME_SITE:Lax}
+  admin:
+    phone: ${ADMIN_PHONE:0900000000}
+    password: ${ADMIN_PASSWORD:admin123}
+
+app:
+  cors:
+    allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:http://localhost:5173,http://localhost:3000}
+
+logging:
+  level:
+    com.cf.tn1983: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
