@@ -15,59 +15,71 @@ export function CustomerSegmentsSection() {
           description="Mỗi mẻ rang củi của xưởng Trọng Nhâm đều hướng tới việc mang lại giá trị thiết thực và sự hài lòng dài lâu."
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-s-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-s-24">
           {/* Segment 1: Quán cà phê */}
           <Card className="border-brand-primary/30 flex flex-col justify-between hover:border-brand-primary">
             <div>
               <div className="flex items-center justify-between mb-s-16">
-                <Badge variant="primary">70% Khách Hàng</Badge>
-                <span className="material-symbols-outlined text-brand-primary text-[22px]">coffee</span>
+                <span className="material-symbols-outlined text-brand-primary text-[22px]">
+                  coffee
+                </span>
               </div>
-              <h3 className="text-heading-m text-brand-text-primary mb-s-8 font-semibold">Quán cà phê</h3>
-              <p className="text-body-m text-brand-text-secondary leading-relaxed mb-s-24">
-                Cung cấp hạt và bột mộc ổn định chất lượng, giá sỉ ưu đãi theo số lượng đều đặn hàng tháng, hỗ trợ gửi mẫu thử miễn phí và tư vấn công thức pha phin ngon hút khách.
-              </p>
-            </div>
-            <div className="pt-s-16 border-t border-brand-border">
-              <Button href="#lien-he" variant="text" icon={<span className="material-symbols-outlined text-[16px]">chevron_right</span>}>
-                Liên hệ tư vấn
-              </Button>
-            </div>
-          </Card>
 
-          {/* Segment 2: Đại lý & NPP */}
-          <Card className="flex flex-col justify-between hover:border-brand-primary/50">
-            <div>
-              <div className="flex items-center justify-between mb-s-16">
-                <Badge variant="secondary">20% Đối Tác</Badge>
-                <span className="material-symbols-outlined text-brand-text-muted text-[22px]">store</span>
-              </div>
-              <h3 className="text-heading-m text-brand-text-primary mb-s-8 font-semibold">Đại lý &amp; Nhà phân phối</h3>
+              <h3 className="text-heading-m text-brand-text-primary mb-s-8 font-semibold">
+                Quán cà phê & đối tác kinh doanh
+              </h3>
+
               <p className="text-body-m text-brand-text-secondary leading-relaxed mb-s-24">
-                Chính sách chiết khấu tốt, hỗ trợ đóng gói nhãn thương hiệu riêng nếu cần, nguồn hàng dồi dào, ổn định quanh năm từ thủ phủ Đắk Lắk.
+                Cung cấp cà phê hạt và cà phê bột với chất lượng ổn định cho quán cà phê,
+                cửa hàng và các đối tác kinh doanh nhỏ lẻ. Hỗ trợ tư vấn sản phẩm phù hợp
+                với nhu cầu sử dụng thực tế.
               </p>
             </div>
+
             <div className="pt-s-16 border-t border-brand-border">
-              <Button href="#lien-he" variant="text" icon={<span className="material-symbols-outlined text-[16px]">chevron_right</span>}>
+              <Button
+                href="#lien-he"
+                variant="text"
+                icon={
+                  <span className="material-symbols-outlined text-[16px]">
+                    chevron_right
+                  </span>
+                }
+              >
                 Liên hệ tư vấn
               </Button>
             </div>
           </Card>
 
           {/* Segment 3: Khách cá nhân */}
-          <Card className="flex flex-col justify-between hover:border-brand-primary/50">
+          <Card className="border-brand-primary/30 flex flex-col justify-between hover:border-brand-primary">
             <div>
               <div className="flex items-center justify-between mb-s-16">
-                <Badge variant="secondary">10% Khách Lẻ</Badge>
-                <span className="material-symbols-outlined text-brand-text-muted text-[22px]">home</span>
+                <span className="material-symbols-outlined text-brand-primary text-[22px]">
+                  home
+                </span>
               </div>
-              <h3 className="text-heading-m text-brand-text-primary mb-s-8 font-semibold">Khách hàng cá nhân &amp; Gia đình</h3>
+
+              <h3 className="text-heading-m text-brand-text-primary mb-s-8 font-semibold">
+                Khách hàng cá nhân & gia đình
+              </h3>
+
               <p className="text-body-m text-brand-text-secondary leading-relaxed mb-s-24">
-                Thưởng thức hương vị cà phê mộc nguyên bản đậm chất Tây Nguyên mỗi ngày ngay tại gian bếp nhà bạn. Đóng gói tiện lợi 250g - 500g.
+                Dành cho những người yêu thích cà phê rang củi truyền thống và muốn thưởng
+                thức cà phê mỗi ngày tại nhà.
               </p>
             </div>
+
             <div className="pt-s-16 border-t border-brand-border">
-              <Button href="#lien-he" variant="text" icon={<span className="material-symbols-outlined text-[16px]">chevron_right</span>}>
+              <Button
+                href="#lien-he"
+                variant="text"
+                icon={
+                  <span className="material-symbols-outlined text-[16px]">
+                    chevron_right
+                  </span>
+                }
+              >
                 Liên hệ tư vấn
               </Button>
             </div>

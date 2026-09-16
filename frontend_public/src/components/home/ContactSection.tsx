@@ -13,10 +13,10 @@ export function ContactSection() {
                 <Badge variant="primary">KẾT NỐI TRỰC TIẾP VỚI XƯỞNG</Badge>
               </div>
               <h3 className="text-heading-l text-brand-text-primary mb-s-8 font-semibold">
-                Bạn đang tìm nguồn cà phê rang củi ổn định cho quán của mình?
+                Bạn đang tìm nguồn cà phê ổn định cho cơ sở của mình?
               </h3>
               <p className="text-body-m text-brand-text-secondary leading-relaxed">
-                Hãy liên hệ ngay với xưởng gia đình Trọng Nhâm để trao đổi trực tiếp, nhận mẫu thử và bảng báo giá sỉ tốt nhất.
+                Hãy liên hệ ngay với Cà phê Trọng Nhâm để trao đổi trực tiếp và báo giá sỉ tốt nhất.
               </p>
             </div>
 

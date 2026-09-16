@@ -29,7 +29,7 @@ export function AdminLayout({ currentPath, pageTitle, onNavigate, onLogout, chil
     <div className="min-h-screen bg-gray-100 text-gray-900">
       <aside className="fixed inset-y-0 left-0 hidden w-60 border-r border-gray-300 bg-white md:block">
         <div className="flex h-16 items-center border-b border-gray-300 px-5">
-          <span className="text-base font-semibold">Coffee Admin</span>
+          <span className="text-base font-semibold">TN1983 Admin</span>
         </div>
         <nav className="space-y-1 p-3" aria-label="Điều hướng chính">
           {navigation.map((item) => (

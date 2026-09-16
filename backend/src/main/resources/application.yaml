@@ -37,7 +37,7 @@ security:
 
 app:
   cors:
-    allowed-origins: http://localhost:5173   # dev
+    allowed-origins: http://localhost:5173, http://localhost:3000   # dev
     # allowed-origins: https://trongnhamcoffee.me                      # prod
 
 rate-limit:
