@@ -167,8 +167,8 @@ jobs:
   # ----------------------------------------------------------
   deploy:
     name: deploy
-    needs: build-and-push
-    if: github.event_name == 'push'
+    needs: [changes, build-and-push]
+    if: github.event_name == 'push' && needs.changes.outputs.backend == 'true'
     runs-on: ubuntu-latest
     environment: production
     concurrency:
