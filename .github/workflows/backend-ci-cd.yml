@@ -66,6 +66,12 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
           cache: maven
 
+      # mvnw mất quyền thực thi khi commit từ Windows (git lưu mode 644
+      # thay vì 755) -> runner Ubuntu checkout ra không chạy được.
+      # Vá tạm ở đây; nên vá vĩnh viễn trong git index (xem ghi chú bên dưới).
+      - name: Make mvnw executable
+        run: chmod +x mvnw
+
       - name: Run tests
         run: ./mvnw -B -ntp verify
 
