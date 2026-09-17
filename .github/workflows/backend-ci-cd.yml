@@ -56,6 +56,36 @@ jobs:
     defaults:
       run:
         working-directory: backend
+
+    # @SpringBootTest load full context -> cần DataSource + Flyway thật.
+    # Container Postgres tạm, sống trong đúng thời gian job chạy, tự huỷ sau đó.
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: tn1983_crm_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=10
+
+    # Giá trị riêng cho CI — không phải secret thật, chỉ cần khớp với
+    # service Postgres ở trên và đủ dài để qua validate của JwtService.
+    env:
+      DB_URL: jdbc:postgresql://localhost:5432/tn1983_crm_test
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      JWT_ACCESS_SECRET: ci-only-access-secret-key-at-least-32-characters
+      JWT_REFRESH_SECRET: ci-only-refresh-secret-key-at-least-32-characters
+      ADMIN_PHONE: "0900000000"
+      ADMIN_PASSWORD: ci-only-admin-password
+      APP_CORS_ALLOWED_ORIGINS: http://localhost:3000
+
     steps:
       - uses: actions/checkout@v4
 
@@ -124,7 +154,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha,scope=backend
           cache-to: type=gha,mode=max,scope=backend
- 
+
   # ----------------------------------------------------------
   # 3) DEPLOY — SSH vào Azure VM, pull image mới, restart container
   # ----------------------------------------------------------
