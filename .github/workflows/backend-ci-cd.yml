@@ -20,10 +20,7 @@ concurrency:
 
 env:
   JAVA_VERSION: "21"
-  # Username không phải bí mật thật (đã lộ sẵn trong tên image khi push),
-  # nên để ở Variables, không phải Secrets — dùng secrets ở đây sẽ khiến
-  # GitHub âm thầm xoá trắng bất kỳ job output nào chứa nó.
-  IMAGE_NAME: ${{ vars.DOCKERHUB_USERNAME }}/tn1983-backend
+  IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/tn1983-backend
   CONTAINER_NAME: tn1983-backend
 
 jobs:
@@ -123,8 +120,9 @@ jobs:
     needs: [changes, test]
     if: github.event_name == 'push' && needs.changes.outputs.backend == 'true'
     runs-on: ubuntu-latest
+
     outputs:
-      image_ref: ${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.version }}
+      image_ref: ${{ steps.image.outputs.image_ref }}
     steps:
       - uses: actions/checkout@v4
 
@@ -133,7 +131,7 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ vars.DOCKERHUB_USERNAME }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Docker metadata
@@ -145,12 +143,17 @@ jobs:
             type=sha,format=short,prefix=
             type=raw,value=latest
 
+      - name: Build image reference
+        id: image
+        run: |
+          echo "image_ref=${{ env.IMAGE_NAME }}:${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+
       - name: Build and push image
         uses: docker/build-push-action@v6
         with:
           context: ./backend
           file: ./backend/Dockerfile
-          platforms: linux/amd64        # B2als_v2 là AMD x86-64
+          platforms: linux/amd64
           push: true
           provenance: false
           tags: ${{ steps.meta.outputs.tags }}
@@ -175,7 +178,7 @@ jobs:
         uses: appleboy/ssh-action@v1
         env:
           IMAGE_REF: ${{ needs.build-and-push.outputs.image_ref }}
-          DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
           CONTAINER_NAME: ${{ env.CONTAINER_NAME }}
         with:
@@ -184,22 +187,22 @@ jobs:
           key: ${{ secrets.AZURE_VM_SSH_KEY }}
           port: ${{ secrets.AZURE_VM_SSH_PORT }}
           envs: IMAGE_REF,DOCKERHUB_USERNAME,DOCKERHUB_TOKEN,CONTAINER_NAME
+          script_stop: true
           script: |
             set -e
             cd /opt/tn1983
 
             echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
 
-            # Cập nhật ĐÚNG 1 dòng BACKEND_IMAGE trong .env, không đụng tới
-            # các dòng khác (CERTBOT_EMAIL...). Ghi đè cả file (> .env) sẽ
-            # xoá mất chúng — đã từng gây lỗi "CERTBOT_EMAIL is not set".
+            # Nhớ tag đang chạy để rollback
+            PREV_IMAGE=$(grep '^BACKEND_IMAGE=' .env 2>/dev/null | cut -d= -f2- || true)
+
+            # Ghi tag mới vào .env -> compose nội suy vào `image:`
             touch .env
-            PREV_IMAGE=$(grep '^BACKEND_IMAGE=' .env | cut -d= -f2- || true)
-            if grep -q '^BACKEND_IMAGE=' .env; then
-              sed -i "s#^BACKEND_IMAGE=.*#BACKEND_IMAGE=${IMAGE_REF}#" .env
-            else
-              echo "BACKEND_IMAGE=${IMAGE_REF}" >> .env
-            fi
+
+            sed -i '/^BACKEND_IMAGE=/d' .env
+
+            echo "BACKEND_IMAGE=$IMAGE_REF" >> .env
 
             docker compose pull backend
             docker compose up -d --remove-orphans backend
@@ -219,7 +222,7 @@ jobs:
               echo "::error::Health check thất bại, rollback về ${PREV_IMAGE:-khong-co}"
               docker compose logs --tail 200 backend || true
               if [ -n "$PREV_IMAGE" ]; then
-                sed -i "s#^BACKEND_IMAGE=.*#BACKEND_IMAGE=${PREV_IMAGE}#" .env
+                printf 'BACKEND_IMAGE=%s\n' "$PREV_IMAGE" > .env
                 docker compose up -d backend
               fi
               docker logout
