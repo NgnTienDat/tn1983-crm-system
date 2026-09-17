@@ -1,0 +1,224 @@
+# .github/workflows/backend-ci-cd.yml
+name: Backend CI/CD
+
+on:
+  # PR features -> develop  : chỉ chạy `test`
+  # PR develop  -> main     : chỉ chạy `test`
+  pull_request:
+    branches: [develop, main]
+  # Merge PR vào main = push event trên main -> test + build-and-push + deploy
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# Push liên tiếp lên cùng 1 PR thì hủy run cũ; run trên main thì KHÔNG hủy
+concurrency:
+  group: backend-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  JAVA_VERSION: "21"
+  IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/tn1983-backend
+  CONTAINER_NAME: tn1983-backend
+
+jobs:
+  # ----------------------------------------------------------
+  # 0) Monorepo: xác định PR/commit có đụng tới backend/ không.
+  #    Dùng job này thay cho `paths:` ở cấp workflow, vì nếu workflow
+  #    không trigger thì required status check sẽ treo mãi ở trạng thái
+  #    "Expected"; còn job bị skip thì GitHub coi như PASS.
+  # ----------------------------------------------------------
+  changes:
+    name: changes
+    runs-on: ubuntu-latest
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            backend:
+              - 'backend/**'
+              - '.github/workflows/backend-ci-cd.yml'
+
+  # ----------------------------------------------------------
+  # 1) TEST — chạy cho mọi PR vào develop/main và cho push lên main
+  # ----------------------------------------------------------
+  test:
+    name: test
+    needs: changes
+    if: needs.changes.outputs.backend == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    # @SpringBootTest load full context -> cần DataSource + Flyway thật.
+    # Container Postgres tạm, sống trong đúng thời gian job chạy, tự huỷ sau đó.
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: tn1983_crm_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=10
+
+    # Giá trị riêng cho CI — không phải secret thật, chỉ cần khớp với
+    # service Postgres ở trên và đủ dài để qua validate của JwtService.
+    env:
+      DB_URL: jdbc:postgresql://localhost:5432/tn1983_crm_test
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      JWT_ACCESS_SECRET: ci-only-access-secret-key-at-least-32-characters
+      JWT_REFRESH_SECRET: ci-only-refresh-secret-key-at-least-32-characters
+      ADMIN_PHONE: "0900000000"
+      ADMIN_PASSWORD: ci-only-admin-password
+      APP_CORS_ALLOWED_ORIGINS: http://localhost:3000
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: maven
+
+      # mvnw mất quyền thực thi khi commit từ Windows (git lưu mode 644
+      # thay vì 755) -> runner Ubuntu checkout ra không chạy được.
+      # Vá tạm ở đây; nên vá vĩnh viễn trong git index (xem ghi chú bên dưới).
+      - name: Make mvnw executable
+        run: chmod +x mvnw
+
+      - name: Run tests
+        run: ./mvnw -B -ntp verify
+
+      - name: Publish test report
+        if: always()
+        uses: mikepenz/action-junit-report@v5
+        with:
+          report_paths: backend/target/surefire-reports/*.xml
+          require_tests: false
+
+  # ----------------------------------------------------------
+  # 2) BUILD & PUSH — chỉ chạy khi PR đã được merge vào main
+  # ----------------------------------------------------------
+  build-and-push:
+    name: build-and-push
+    needs: [changes, test]
+    if: github.event_name == 'push' && needs.changes.outputs.backend == 'true'
+    runs-on: ubuntu-latest
+    outputs:
+      image_ref: ${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE_NAME }}
+          tags: |
+            type=sha,format=short,prefix=
+            type=raw,value=latest
+
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          platforms: linux/amd64        # B2als_v2 là AMD x86-64
+          push: true
+          provenance: false
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha,scope=backend
+          cache-to: type=gha,mode=max,scope=backend
+
+  # ----------------------------------------------------------
+  # 3) DEPLOY — SSH vào Azure VM, pull image mới, restart container
+  # ----------------------------------------------------------
+  deploy:
+    name: deploy
+    needs: build-and-push
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment: production      # thêm required reviewer ở đây nếu muốn duyệt tay
+    concurrency:
+      group: backend-deploy-production
+      cancel-in-progress: false
+    steps:
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1
+        env:
+          IMAGE_REF: ${{ needs.build-and-push.outputs.image_ref }}
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+          CONTAINER_NAME: ${{ env.CONTAINER_NAME }}
+        with:
+          host: ${{ secrets.AZURE_VM_HOST }}
+          username: ${{ secrets.AZURE_VM_USER }}
+          key: ${{ secrets.AZURE_VM_SSH_KEY }}
+          port: ${{ secrets.AZURE_VM_SSH_PORT }}
+          envs: IMAGE_REF,DOCKERHUB_USERNAME,DOCKERHUB_TOKEN,CONTAINER_NAME
+          script_stop: true
+          script: |
+            set -e
+            cd /opt/tn1983
+
+            echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+
+            # Nhớ tag đang chạy để rollback
+            PREV_IMAGE=$(grep '^BACKEND_IMAGE=' .env 2>/dev/null | cut -d= -f2- || true)
+
+            # Ghi tag mới vào .env -> compose nội suy vào `image:`
+            printf 'BACKEND_IMAGE=%s\n' "$IMAGE_REF" > .env
+
+            docker compose pull backend
+            docker compose up -d --remove-orphans backend
+
+            # Chờ app healthy (tối đa ~150s). Port 8080 không expose ra host
+            # nữa (chỉ nằm trong network nội bộ "internal"), nên check qua
+            # docker compose exec thay vì curl trực tiếp vào host.
+            OK=0
+            for i in $(seq 1 30); do
+              if docker compose exec -T backend curl -fsS http://localhost:8080/actuator/health >/dev/null 2>&1; then
+                OK=1; break
+              fi
+              sleep 5
+            done
+
+            if [ "$OK" != "1" ]; then
+              echo "::error::Health check thất bại, rollback về ${PREV_IMAGE:-khong-co}"
+              docker compose logs --tail 200 backend || true
+              if [ -n "$PREV_IMAGE" ]; then
+                printf 'BACKEND_IMAGE=%s\n' "$PREV_IMAGE" > .env
+                docker compose up -d backend
+              fi
+              docker logout
+              exit 1
+            fi
+
+            echo "Deploy thành công: $IMAGE_REF"
+            docker logout
+            docker image prune -af --filter "until=168h"
