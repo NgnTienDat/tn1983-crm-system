@@ -2,7 +2,7 @@
 # Mặc định cho máy local. File này CÓ THỂ commit vì không chứa secret thật.
 spring:
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5433/tn1983_crm}
+    url: ${DB_URL}
     username: ${DB_USERNAME:postgres}
     password: ${DB_PASSWORD:postgres}
   jpa:
