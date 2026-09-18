@@ -52,7 +52,7 @@ interface TrackingStatusBadgeProps {
 export function TrackingStatusBadge({ status }: TrackingStatusBadgeProps) {
   const meta = STATUS_MAP[status];
   return (
-    <span className="inline-flex items-center gap-s-8 px-s-12 py-s-4 rounded-full bg-brand-primary/15 text-brand-primary border border-brand-primary/30 text-label uppercase">
+    <span className="inline-flex items-center gap-2 border border-brand-primary/30 bg-brand-primary/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-brand-primary">
       <span className="material-symbols-outlined text-[13px]">{meta.icon}</span>
       {meta.label}
     </span>

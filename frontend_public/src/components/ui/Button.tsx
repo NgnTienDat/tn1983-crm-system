@@ -22,23 +22,23 @@ export function Button({
   icon,
   external = false,
 }: ButtonProps) {
-  let baseStyles = "inline-flex items-center justify-center font-medium transition-colors cursor-pointer ";
+  let baseStyles = "inline-flex items-center justify-center font-bold tracking-tight transition-all duration-200 cursor-pointer rounded-lg ";
 
   if (variant === "primary") {
-    baseStyles += "bg-brand-primary hover:bg-brand-primary-hover text-brand-bg rounded-full shadow-sm ";
+    baseStyles += "bg-brand-primary hover:bg-brand-primary-hover text-white shadow-xs hover:shadow transition-shadow ";
   } else if (variant === "secondary") {
-    baseStyles += "bg-brand-surface border border-brand-border hover:border-brand-primary text-brand-text-primary hover:text-brand-primary rounded-full ";
+    baseStyles += "bg-white border border-brand-border hover:border-brand-primary text-brand-text-primary hover:text-brand-primary shadow-xs ";
   } else if (variant === "text") {
-    baseStyles += "text-brand-primary text-body-m hover:text-brand-text-primary gap-s-4 ";
+    baseStyles += "text-brand-primary hover:text-brand-primary-hover gap-s-4 ";
   }
 
   if (variant !== "text") {
     if (size === "sm") {
-      baseStyles += "h-9 px-s-16 text-body-m ";
+      baseStyles += "h-9 px-4 text-xs font-semibold ";
     } else if (size === "lg") {
-      baseStyles += "h-12 px-s-24 text-body-m ";
+      baseStyles += "h-12 px-7 text-base ";
     } else {
-      baseStyles += "h-10 px-s-24 text-body-m ";
+      baseStyles += "h-11 px-6 text-sm ";
     }
   }
 
