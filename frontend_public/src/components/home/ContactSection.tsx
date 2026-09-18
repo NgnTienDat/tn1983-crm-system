@@ -1,46 +1,102 @@
-import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 
 export function ContactSection() {
   return (
-    <section className="snap-section w-full bg-brand-surface py-s-64 border-b border-brand-border relative" id="lien-he">
+    <section id="lien-he" className="w-full border-b border-brand-border bg-brand-bg py-24 sm:py-28 lg:py-32">
       <Container>
-        <div className="relative rounded-2xl bg-brand-surface-elevated p-s-32 lg:p-s-48 border border-brand-border overflow-hidden">
-          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-s-32">
-            <div className="text-center lg:text-left max-w-2xl">
-              <div className="mb-s-12">
-                <Badge variant="primary">KẾT NỐI TRỰC TIẾP VỚI XƯỞNG</Badge>
-              </div>
-              <h3 className="text-heading-l text-brand-text-primary mb-s-8 font-semibold">
-                Bạn đang tìm nguồn cà phê ổn định cho cơ sở của mình?
-              </h3>
-              <p className="text-body-m text-brand-text-secondary leading-relaxed">
-                Hãy liên hệ ngay với Cà phê Trọng Nhâm để trao đổi trực tiếp và báo giá sỉ tốt nhất.
-              </p>
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-20">
+          <div className="lg:col-span-5">
+            <div className="mb-5 flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.2em] text-brand-primary">
+              <span className="h-px w-10 bg-brand-primary" />
+              Kết nối trực tiếp với xưởng
+            </div>
+            <h2 className="text-4xl font-extrabold leading-[1.02] tracking-tighter text-brand-text-primary sm:text-6xl">
+              Bạn đang tìm nguồn cà phê ổn định?
+            </h2>
+            <p className="mt-7 max-w-md text-base  text-brand-text-secondary">
+              Liên hệ trực tiếp với xưởng để hỏi giá, đặt hàng hoặc trao đổi nhu cầu hợp tác.
+            </p>
+          </div>
+
+          <div className="lg:col-span-5 lg:col-start-8">
+            <div className="border-t border-brand-text-primary">
+              <a
+                href="tel:0852845969"
+                className="group flex items-center justify-between border-b border-brand-border py-6"
+              >
+                <div>
+                  <span className="block text-[10px] font-bold uppercase tracking-[0.16em] text-brand-text-muted">
+                    Hotline / Zalo
+                  </span>
+                  <span className="mt-2 block text-lg  tracking-[-0.03em] text-brand-text-primary">
+                    Đạt · 0852 845 969
+                  </span>
+                  <span className="mt-1 block text-lg tracking-[-0.03em] text-brand-text-primary">
+                    Phong · 0999 999 999
+                  </span>
+                </div>
+                <span className="material-symbols-outlined text-brand-primary transition-transform group-hover:translate-x-1">
+                  arrow_forward
+                </span>
+              </a>
+
+              <a
+                href="mailto:caphetrongnham@gmail.com"
+                className="group flex items-center justify-between border-b border-brand-border py-6"
+              >
+                <div>
+                  <span className="block text-[10px] font-bold uppercase tracking-[0.16em] text-brand-text-muted">
+                    Email
+                  </span>
+                  <span className="mt-2 block text-lg tracking-[-0.03em] text-brand-text-primary">
+                    caphetrongnham@gmail.com
+                  </span>
+                </div>
+                <span className="material-symbols-outlined text-brand-primary transition-transform group-hover:translate-x-1">
+                  arrow_forward
+                </span>
+              </a>
+
+              <a
+                href="https://www.facebook.com/iosog.964"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center justify-between border-b border-brand-border py-6"
+              >
+                <div>
+                  <span className="block text-[10px] font-bold uppercase tracking-[0.16em] text-brand-text-muted">
+                    Facebook
+                  </span>
+                  <span className="mt-2 block text-sm font-bold text-brand-text-primary">
+                    Nguyễn Tiến Đạt
+                  </span>
+                </div>
+                <span className="material-symbols-outlined text-brand-primary transition-transform group-hover:translate-x-1">
+                  arrow_forward
+                </span>
+              </a>
             </div>
 
-            {/* Standardized Actions */}
-            <div className="flex flex-col sm:flex-row lg:flex-col gap-s-16 w-full sm:w-auto shrink-0">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button
-                href="tel:0900000000"
-                variant="secondary"
-                size="lg"
-                className="w-full text-center"
-                icon={<span className="material-symbols-outlined text-[18px] text-brand-primary mr-s-8 -ml-s-4 order-first">call</span>}
-              >
-                Gọi hotline: 09xx xxx xxx
-              </Button>
-
-              <Button
-                href="https://zalo.me"
+                href="https://zalo.me/0852845969"
                 variant="primary"
                 size="lg"
                 external
-                className="w-full text-center shadow-lg shadow-brand-primary/20"
-                icon={<span className="material-symbols-outlined text-[18px] mr-s-8 -ml-s-4 order-first">send</span>}
+                className="w-full sm:w-auto"
               >
-                Nhận báo giá
+                Nhận báo giá qua Zalo
+              </Button>
+
+              <Button
+                href="https://www.facebook.com/iosog.964"
+                variant="secondary"
+                size="lg"
+                external
+                className="w-full sm:w-auto"
+              >
+                Liên hệ Facebook
               </Button>
             </div>
           </div>

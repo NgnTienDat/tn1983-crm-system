@@ -1,17 +1,17 @@
 export function TrackingHero() {
   return (
     <>
-      <div className="inline-flex items-center gap-space-xs px-space-md py-1.5 rounded-full bg-surface-container-high/80 backdrop-blur-md shadow-sm">
-        <span className="inline-block w-1.5 h-1.5 rounded-full bg-wood-ember animate-ping"></span>
-        <span className="font-label-caps text-label-caps uppercase text-tertiary tracking-[0.2em]">
+      <div className="inline-flex items-center gap-2 border border-brand-border bg-white px-3 py-1.5 shadow-xs">
+        <span className="inline-block h-1.5 w-1.5 rounded-full bg-brand-primary" />
+        <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-brand-primary">
           Hệ thống theo dõi đơn hàng
         </span>
       </div>
-      <div className="space-y-space-xs">
-        <h1 className="font-headline-xl text-headline-xl sm:text-display-hero text-cream-offwhite tracking-tight">
+      <div className="space-y-2">
+        <h1 className="text-4xl font-extrabold tracking-[-0.05em] text-brand-text-primary sm:text-6xl">
           Tra cứu đơn hàng
         </h1>
-        <p className="font-body-lg text-body-lg text-smoke-muted max-w-xl mx-auto">
+        <p className="max-w-xl text-base leading-7 text-brand-text-secondary sm:text-lg">
           Theo dõi trạng thái đơn hàng của bạn
         </p>
       </div>

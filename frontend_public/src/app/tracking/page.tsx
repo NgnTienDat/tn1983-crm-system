@@ -32,7 +32,7 @@ export function TrackingPage() {
       <div className="absolute top-80 right-10 w-[420px] h-[420px] bg-primary/5 rounded-full blur-[120px] pointer-events-none -z-10" />
 
       {/* Main Content Container */}
-      <div className="w-full max-w-[84rem] mx-auto px-space-md sm:px-space-xl py-space-3xl flex flex-col gap-space-4xl">
+      <div className="mx-auto flex w-full max-w-[84rem] flex-col gap-space-4xl px-space-md pb-space-3xl pt-32 sm:px-space-xl sm:pt-36">
         {/* Section 1: Search & Lookup Interface */}
         <section className="flex flex-col items-center text-center max-w-3xl mx-auto w-full space-y-space-lg">
           <TrackingHero />
@@ -41,9 +41,9 @@ export function TrackingPage() {
 
         {/* Section 2: Results / Loading / Error Display */}
         {isLoading && (
-          <div className="flex flex-col items-center justify-center py-space-3xl text-center space-y-space-md bg-espresso-surface rounded-2xl p-space-xl shadow-xl">
-            <div className="w-12 h-12 rounded-full border-4 border-wood-ember/30 border-t-wood-ember animate-spin" />
-            <p className="font-body-lg text-body-lg text-cream-offwhite font-medium">
+          <div className="flex flex-col items-center justify-center space-y-4 border border-brand-border bg-white p-12 text-center shadow-sm">
+            <div className="h-12 w-12 rounded-full border-4 border-brand-primary/20 border-t-brand-primary animate-spin" />
+            <p className="text-base font-semibold text-brand-text-primary">
               Đang tra cứu thông tin đơn hàng...
             </p>
           </div>

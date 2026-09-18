@@ -1,57 +1,52 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+
+const navigation = [
+  { label: "Sản phẩm", href: "/#san-pham-cung-cap" },
+  { label: "Câu chuyện", href: "/#cau-chuyen-xuong" },
+  { label: "Quy trình", href: "/#quy-trinh-rang" },
+  { label: "Ghé thăm xưởng", href: "/#ghe-tham-xuong" },
+  { label: "Liên hệ", href: "/#lien-he" },
+];
 
 export function Header() {
   return (
-    <header className="fixed top-0 left-0 right-0 w-full z-50 bg-brand-bg/90 backdrop-blur-md border-b border-brand-border h-16 transition-all">
-      <Container className="h-full flex items-center justify-between">
-        {/* Brand Identity (Left) */}
-        <Link href="/" className="flex items-center gap-s-12 group shrink-0">
-          <div className="flex flex-col">
-            <span className="text-[22px] sm:text-[24px] font-bold text-brand-text-primary tracking-tight leading-none">
-              Trọng Nhâm
-            </span>
-            <span className="text-[10px] uppercase tracking-widest text-brand-primary font-medium mt-1">
-              Rang củi Buôn Ma Thuột
-            </span>
-          </div>
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#1B1613]/90 text-white backdrop-blur-md">
+      <Container className="flex h-19 items-center justify-between gap-8">
+        <Link href="/" className="group shrink-0" aria-label="Trọng Nhâm Coffee - Trang chủ">
+          <span className="block font-black text-white tracking-tighter text-[22px] leading-none">
+            TRỌNG NHÂM
+          </span>
+          <span className="mt-2 block text-[10px] font-bold uppercase tracking-[0.28em] text-[#C79368]">Coffee Roastery · Since 1983</span>
+          
         </Link>
 
-        {/* Central Navigation */}
-        <nav className="hidden md:flex items-center gap-s-32">
-          <Link className="text-body-m text-brand-text-secondary hover:text-brand-text-primary transition-colors font-medium" href="/#bo-suu-tap">
-            Sản phẩm
-          </Link>
-          <Link className="text-body-m text-brand-text-secondary hover:text-brand-text-primary transition-colors font-medium" href="/#cau-chuyen-xuong">
-            Câu chuyện xưởng
-          </Link>
-          <Link className="text-body-m text-brand-text-secondary hover:text-brand-text-primary transition-colors font-medium" href="/#quy-trinh-rang">
-            Quy trình rang
-          </Link>
-          <Link className="text-body-m text-brand-text-secondary hover:text-brand-text-primary transition-colors font-medium" href="/#khach-hang-dai-ly">
-            Khách hàng
-          </Link>
-          <Link className="text-body-m text-brand-text-secondary hover:text-brand-text-primary transition-colors font-medium" href="/tracking">
-            Tra cứu đơn hàng
-          </Link>
-          <Link className="text-body-m text-brand-text-secondary hover:text-brand-text-primary transition-colors font-medium" href="/#lien-he">
-            Liên hệ
+        <nav className="hidden items-center gap-7 xl:flex" aria-label="Điều hướng chính">
+          {navigation.map((item) => (
+            <Link
+              key={item.href}
+              className="text-[13px] font-semibold text-brand-text-light-secondary transition-colors hover:text-white"
+              href={item.href}
+            >
+              {item.label}
+            </Link>
+          ))}
+          <Link
+            className="text-[13px] font-semibold text-brand-text-light-secondary transition-colors hover:text-white"
+            href="/tracking"
+          >
+            Tra cứu đơn
           </Link>
         </nav>
 
-        {/* Standardized Actions: Phone Hotline & Primary CTA */}
-        <div className="flex items-center gap-s-12 shrink-0">
+        <div className="flex items-center gap-3">
           <a
-            className="w-9 h-9 rounded-full bg-brand-surface-elevated border border-brand-border flex items-center justify-center text-brand-text-secondary hover:text-brand-primary hover:border-brand-primary transition-colors"
+            className="hidden items-center gap-2 text-[17px] font-semibold text-brand-text-light-secondary transition-colors hover:text-white md:flex"
             href="tel:0900000000"
-            title="Gọi trực tiếp xưởng"
           >
-            <span className="material-symbols-outlined text-[18px]">call</span>
+            <span className="material-symbols-outlined text-[17px] text-brand-primary">call</span>
+            0852 845 969
           </a>
-          <Button href="/#lien-he" variant="primary" size="sm">
-            Nhận báo giá
-          </Button>
         </div>
       </Container>
     </header>

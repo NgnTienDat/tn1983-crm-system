@@ -39,75 +39,75 @@ export function TrackingProducts({ order }: Readonly<TrackingProductsProps>) {
     ORDER_STATUS_MAP[order.status]?.label || order.status;
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-space-xl">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
       {/* Column 1: Order Information */}
-      <div className="lg:col-span-6 bg-espresso-surface rounded-2xl p-space-xl shadow-xl flex flex-col justify-between gap-space-lg">
-        <div className="space-y-space-md">
-          <div className="flex items-center justify-between pb-space-xs">
+      <div className="flex flex-col justify-between gap-6 border border-brand-border bg-white p-6 shadow-sm lg:col-span-6">
+        <div className="space-y-6">
+          <div className="flex items-center justify-between pb-1">
             <div className="flex items-center gap-space-xs">
-              <span className="material-symbols-outlined text-primary text-[22px]">
+              <span className="material-symbols-outlined text-brand-primary text-[22px]">
                 receipt
               </span>
-              <h3 className="font-headline-md text-headline-md text-cream-offwhite">
+              <h3 className="text-xl font-extrabold tracking-[-0.03em] text-brand-text-primary">
                 Thông tin đơn hàng
               </h3>
             </div>
             {order.editable ? (
-              <span className="px-2.5 py-1 rounded-full bg-wood-ember/20 text-tertiary font-label-caps text-label-caps uppercase">
+              <span className="border border-brand-primary/25 bg-brand-primary/10 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-brand-primary">
                 Có thể chỉnh sửa
               </span>
             ) : (
-              <span className="px-2.5 py-1 rounded-full bg-surface-container-high text-smoke-muted font-label-caps text-label-caps uppercase">
+              <span className="border border-brand-border bg-brand-bg px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-brand-text-muted">
                 Đã khóa
               </span>
             )}
           </div>
 
-          <div className="bg-surface-container-low rounded-xl p-space-md space-y-space-xs">
-            <div className="grid grid-cols-2 gap-2 pb-2 border-b border-surface-container-high">
+          <div className="space-y-3 border border-brand-border bg-brand-bg p-4">
+            <div className="grid grid-cols-2 gap-2 border-b border-brand-border pb-2">
               <div>
-                <span className="font-label-caps text-label-caps uppercase text-smoke-muted block">
+                <span className="block text-[10px] font-bold uppercase tracking-wider text-brand-text-muted">
                   Khách hàng
                 </span>
-                <span className="font-body-lg text-body-lg font-semibold text-cream-offwhite">
+                <span className="text-base font-bold text-brand-text-primary">
                   {customerName}
                 </span>
               </div>
               <div>
-                <span className="font-label-caps text-label-caps uppercase text-smoke-muted block">
+                <span className="block text-[10px] font-bold uppercase tracking-wider text-brand-text-muted">
                   Loại khách
                 </span>
-                <span className="font-body-md text-body-md text-smoke-light">
+                <span className="text-sm text-brand-text-secondary">
                   {customerType}
                 </span>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-2 pb-2 border-b border-surface-container-high">
+            <div className="grid grid-cols-2 gap-2 border-b border-brand-border pb-2">
               <div>
-                <span className="font-label-caps text-label-caps uppercase text-smoke-muted block">
+                <span className="block text-[10px] font-bold uppercase tracking-wider text-brand-text-muted">
                   Người nhận
                 </span>
-                <span className="font-body-md text-body-md font-medium text-cream-offwhite">
+                <span className="text-sm font-semibold text-brand-text-primary">
                   {receiverName}
                 </span>
               </div>
               <div>
-                <span className="font-label-caps text-label-caps uppercase text-smoke-muted block">
+                <span className="block text-[10px] font-bold uppercase tracking-wider text-brand-text-muted">
                   Số điện thoại
                 </span>
-                <span className="font-body-md text-body-md text-tertiary">
+                <span className="text-sm font-semibold text-brand-primary">
                   {receiverPhone}
                 </span>
               </div>
             </div>
 
-            <div className="pb-2 border-b border-surface-container-high">
-              <span className="font-label-caps text-label-caps uppercase text-smoke-muted block">
+            <div className="border-b border-brand-border pb-2">
+              <span className="block text-[10px] font-bold uppercase tracking-wider text-brand-text-muted">
                 Địa chỉ nhận
               </span>
-              <span className="font-body-md text-body-md text-smoke-light flex items-center gap-1.5 pt-0.5">
-                <span className="material-symbols-outlined text-[16px] text-smoke-muted">
+              <span className="flex items-center gap-1.5 pt-0.5 text-sm text-brand-text-secondary">
+                <span className="material-symbols-outlined text-[16px] text-brand-text-muted">
                   location_on
                 </span>
                 {receiverAddress}
@@ -115,56 +115,56 @@ export function TrackingProducts({ order }: Readonly<TrackingProductsProps>) {
             </div>
 
             <div>
-              <span className="font-label-caps text-label-caps uppercase text-smoke-muted block">
+              <span className="block text-[10px] font-bold uppercase tracking-wider text-brand-text-muted">
                 Phương thức nhận
               </span>
-              <span className="font-body-md text-body-md text-cream-offwhite font-medium">
+              <span className="text-sm font-semibold text-brand-text-primary">
                 {shippingMethod}
               </span>
             </div>
           </div>
 
-          <div className="bg-surface-container-low rounded-xl p-space-md space-y-1">
-            <span className="font-label-caps text-label-caps uppercase text-smoke-muted flex items-center gap-1">
-              <span className="material-symbols-outlined text-[15px] text-wood-ember">
+          <div className="space-y-1 border border-brand-border bg-brand-bg p-4">
+            <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-brand-text-muted">
+              <span className="material-symbols-outlined text-[15px] text-brand-primary">
                 notes
               </span>
               Ghi chú
             </span>
-            <p className="font-body-md text-body-md text-cream-offwhite italic">
+            <p className="text-sm italic text-brand-text-primary">
               {noteText}
             </p>
           </div>
         </div>
 
-        <div className="p-space-md rounded-xl bg-surface-container-high/60 shadow-inner flex items-center justify-between text-smoke-muted font-label-subtle text-label-subtle">
+        <div className="flex items-center justify-between border-t border-brand-border pt-4 text-sm text-brand-text-secondary">
           <span>
-            Nguồn đơn: <strong className="text-cream-offwhite">{orderSource}</strong>
+            Nguồn đơn: <strong className="text-brand-text-primary">{orderSource}</strong>
           </span>
           <span>
-            Mã đơn: <strong className="text-tertiary">{orderCode}</strong>
+            Mã đơn: <strong className="text-brand-primary">{orderCode}</strong>
           </span>
         </div>
       </div>
 
       {/* Column 2: Products & Invoice */}
-      <div className="lg:col-span-6 bg-espresso-surface rounded-2xl p-space-xl shadow-xl flex flex-col justify-between gap-space-lg">
-        <div className="space-y-space-md">
-          <div className="flex items-center justify-between pb-space-xs">
-            <div className="flex items-center gap-space-xs">
-              <span className="material-symbols-outlined text-primary text-[22px]">
+      <div className="flex flex-col justify-between gap-6 border border-brand-border bg-white p-6 shadow-sm lg:col-span-6">
+        <div className="space-y-6">
+          <div className="flex items-center justify-between pb-1">
+            <div className="flex items-center gap-2">
+              <span className="material-symbols-outlined text-brand-primary text-[22px]">
                 shopping_bag
               </span>
-              <h3 className="font-headline-md text-headline-md text-cream-offwhite">
+              <h3 className="text-xl font-extrabold tracking-[-0.03em] text-brand-text-primary">
                 Sản phẩm &amp; Thanh toán
               </h3>
             </div>
-            <span className="font-label-caps text-label-caps uppercase text-smoke-muted">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-brand-text-muted">
               {itemCountLabel}
             </span>
           </div>
 
-          <div className="space-y-space-sm">
+          <div className="space-y-3">
             {items.map((item, idx) => {
               const packagingName = item.packagingType
                 ? PACKAGING_TYPE_MAP[item.packagingType] || item.packagingType
@@ -179,38 +179,38 @@ export function TrackingProducts({ order }: Readonly<TrackingProductsProps>) {
               return (
                 <div
                   key={item.id || `${item.productId}-${idx}`}
-                  className="flex items-start justify-between gap-space-md p-space-md rounded-xl bg-surface-container-low"
+                  className="flex items-start justify-between gap-4 border border-brand-border bg-brand-bg p-4"
                 >
                   <div className="space-y-1.5">
-                    <h4 className="font-body-lg text-body-lg font-semibold text-cream-offwhite">
+                    <h4 className="text-base font-bold text-brand-text-primary">
                       {item.productName || "Cà phê hạt"}
                     </h4>
-                    <div className="flex flex-wrap items-center gap-x-space-sm gap-y-1 font-label-subtle text-label-subtle text-smoke-muted">
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-brand-text-secondary">
                       <span>
                         Khối lượng:{" "}
-                        <strong className="text-smoke-light">
+                        <strong className="text-brand-text-primary">
                           {item.quantityKg ?? 0} kg
                         </strong>
                       </span>
                       <span>•</span>
                       <span>
                         Đóng gói:{" "}
-                        <strong className="text-smoke-light">{countText}</strong>
+                        <strong className="text-brand-text-primary">{countText}</strong>
                       </span>
                       <span>•</span>
                       <span>
                         Loại túi:{" "}
-                        <strong className="text-smoke-light">
+                        <strong className="text-brand-text-primary">
                           {packagingName}
                         </strong>
                       </span>
                     </div>
-                    <div className="font-label-subtle text-label-subtle text-tertiary">
+                    <div className="text-sm font-semibold text-brand-primary">
                       Đơn giá: {unitPriceFormatted}/kg
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="font-body-lg text-body-lg font-bold text-cream-offwhite">
+                    <span className="text-base font-extrabold text-brand-text-primary">
                       {itemTotalFormatted}
                     </span>
                   </div>
@@ -219,38 +219,38 @@ export function TrackingProducts({ order }: Readonly<TrackingProductsProps>) {
             })}
           </div>
 
-          <div className="bg-surface-container-lowest p-space-md rounded-xl space-y-space-sm">
-            <div className="flex items-center justify-between text-smoke-muted font-body-md text-body-md">
+          <div className="space-y-3 border border-brand-border bg-white p-4">
+            <div className="flex items-center justify-between text-sm text-brand-text-secondary">
               <span>Phương thức nhận</span>
-              <span className="text-cream-offwhite font-medium">
+              <span className="font-semibold text-brand-text-primary">
                 {shippingMethod}
               </span>
             </div>
-            <div className="h-px bg-surface-container-high"></div>
+            <div className="h-px bg-brand-border"></div>
             <div className="flex items-baseline justify-between pt-1">
               <div className="space-y-0.5">
-                <span className="font-label-caps text-label-caps uppercase text-smoke-muted">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-brand-text-muted">
                   Tổng giá trị đơn hàng
                 </span>
-                <p className="font-label-subtle text-label-subtle text-tertiary">
+                <p className="text-sm text-brand-primary">
                   Thành tiền
                 </p>
               </div>
-              <span className="font-headline-lg text-headline-lg font-bold text-wood-ember tracking-tight">
+              <span className="text-2xl font-extrabold tracking-[-0.04em] text-brand-primary">
                 {totalAmountFormatted}
               </span>
             </div>
           </div>
         </div>
 
-        <div className="p-space-md rounded-xl bg-surface-container-low flex items-center justify-between text-smoke-muted font-label-subtle text-label-subtle">
+        <div className="flex items-center justify-between border-t border-brand-border pt-4 text-sm text-brand-text-secondary">
           <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-primary text-[18px]">
+            <span className="material-symbols-outlined text-brand-primary text-[18px]">
               verified
             </span>
             <span>
               Trạng thái đơn:{" "}
-              <strong className="text-cream-offwhite">
+              <strong className="text-brand-text-primary">
                 {currentStatusLabel}
               </strong>
             </span>

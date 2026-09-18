@@ -15,84 +15,44 @@ const STEPS: {
   stepName: string;
   icon: string;
 }[] = [
-  {
-    status: OrderStatus.RECEIVED,
-    label: "Đã nhận đơn",
-    stepName: "Bước 1",
-    icon: "check_circle",
-  },
-  {
-    status: OrderStatus.ROASTING,
-    label: "Đang rang",
-    stepName: "Bước 2",
-    icon: "local_fire_department",
-  },
-  {
-    status: OrderStatus.PACKAGING,
-    label: "Đóng gói",
-    stepName: "Bước 3",
-    icon: "inventory_2",
-  },
-  {
-    status: OrderStatus.WAITING_FOR_SHIPPING,
-    label: "Chờ giao hàng",
-    stepName: "Bước 4",
-    icon: "departure_board",
-  },
-  {
-    status: OrderStatus.SHIPPED,
-    label: "Đã gửi hàng",
-    stepName: "Bước 5",
-    icon: "local_shipping",
-  },
-  {
-    status: OrderStatus.COMPLETED,
-    label: "Hoàn thành",
-    stepName: "Bước 6",
-    icon: "check_circle",
-  },
+  { status: OrderStatus.RECEIVED, label: "Đã nhận đơn", stepName: "Bước 1", icon: "check_circle" },
+  { status: OrderStatus.ROASTING, label: "Đang rang", stepName: "Bước 2", icon: "local_fire_department" },
+  { status: OrderStatus.PACKAGING, label: "Đóng gói", stepName: "Bước 3", icon: "inventory_2" },
+  { status: OrderStatus.WAITING_FOR_SHIPPING, label: "Chờ giao hàng", stepName: "Bước 4", icon: "departure_board" },
+  { status: OrderStatus.SHIPPED, label: "Đã gửi hàng", stepName: "Bước 5", icon: "local_shipping" },
+  { status: OrderStatus.COMPLETED, label: "Hoàn thành", stepName: "Bước 6", icon: "check_circle" },
 ];
 
 export function TrackingTimeline({ order }: Readonly<TrackingTimelineProps>) {
   if (!order) return null;
 
-  const currentStepIndex = Math.max(
-    0,
-    STEPS.findIndex((s) => s.status === order.status)
-  );
-
-  const nextStatusEnum =
-    order.allowedNextStatuses && order.allowedNextStatuses.length > 0
-      ? order.allowedNextStatuses[0]
-      : null;
-
+  const currentStepIndex = Math.max(0, STEPS.findIndex((s) => s.status === order.status));
+  const nextStatusEnum = order.allowedNextStatuses && order.allowedNextStatuses.length > 0
+    ? order.allowedNextStatuses[0]
+    : null;
   const nextStatusMeta = nextStatusEnum ? ORDER_STATUS_MAP[nextStatusEnum] : null;
-
   const history = order.statusHistory
     ? [...order.statusHistory].sort(
-        (a, b) =>
-          new Date(b.changedAt || 0).getTime() -
-          new Date(a.changedAt || 0).getTime()
+        (a, b) => new Date(b.changedAt || 0).getTime() - new Date(a.changedAt || 0).getTime()
       )
     : [];
 
   return (
-    <div className="bg-espresso-surface rounded-2xl p-space-xl lg:p-space-2xl shadow-xl flex flex-col gap-space-xl">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+    <div className="flex flex-col gap-8 border border-brand-border bg-white p-6 shadow-sm lg:p-8">
+      <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div>
-          <h2 className="font-headline-md text-headline-md text-cream-offwhite tracking-tight">
+          <h2 className="text-xl font-extrabold tracking-[-0.03em] text-brand-text-primary">
             Tiến trình trạng thái đơn hàng
           </h2>
-          <p className="font-label-subtle text-label-subtle text-smoke-muted">
+          <p className="mt-1 text-sm text-brand-text-secondary">
             Hệ thống theo dõi thực tế quy trình xử lý
           </p>
         </div>
-        <div className="inline-flex items-center gap-2 px-space-md py-1.5 rounded-full bg-surface-container-low border border-smoke-border">
-          <span className="font-label-caps text-label-caps uppercase text-smoke-muted">
+        <div className="inline-flex items-center gap-2 border border-brand-border bg-brand-bg px-3 py-1.5">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-brand-text-muted">
             Trạng thái tiếp theo:
           </span>
-          <span className="font-label-caps text-label-caps uppercase text-wood-ember font-semibold flex items-center gap-1">
+          <span className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-brand-primary">
             <span className="material-symbols-outlined text-[16px]">
               {nextStatusMeta ? nextStatusMeta.icon : "check_circle"}
             </span>
@@ -101,79 +61,44 @@ export function TrackingTimeline({ order }: Readonly<TrackingTimelineProps>) {
         </div>
       </div>
 
-      {/* Visual Timeline Bar */}
-      <div className="w-full overflow-x-auto pb-space-sm">
-        <div className="min-w-[760px] grid grid-cols-6 gap-2 relative">
+      <div className="w-full overflow-x-auto pb-2">
+        <div className="grid min-w-[760px] grid-cols-6 gap-2">
           {STEPS.map((step, index) => {
             const isCompleted = index < currentStepIndex;
             const isCurrent = index === currentStepIndex;
             const isLast = index === STEPS.length - 1;
 
             return (
-              <div key={step.status} className="flex flex-col gap-space-sm relative">
+              <div key={step.status} className="relative flex flex-col gap-3">
                 <div className="flex items-center">
                   {isCurrent ? (
-                    <div className="w-10 h-10 rounded-full bg-wood-ember text-espresso-void flex items-center justify-center z-10 shadow-[0_0_20px_rgba(200,122,75,0.6)] animate-pulse">
-                      <span
-                        className="material-symbols-outlined text-[20px]"
-                        style={{ fontVariationSettings: "'FILL' 1" }}
-                      >
+                    <div className="z-10 flex h-10 w-10 items-center justify-center rounded-full bg-brand-primary text-white shadow-sm">
+                      <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>
                         {step.icon}
                       </span>
                     </div>
                   ) : isCompleted ? (
-                    <div className="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-primary z-10 shadow-md">
-                      <span
-                        className="material-symbols-outlined text-[20px]"
-                        style={{ fontVariationSettings: "'FILL' 1" }}
-                      >
+                    <div className="z-10 flex h-10 w-10 items-center justify-center rounded-full border border-brand-primary/30 bg-brand-primary/10 text-brand-primary">
+                      <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>
                         check_circle
                       </span>
                     </div>
                   ) : (
-                    <div className="w-10 h-10 rounded-full bg-surface-container-high text-smoke-muted flex items-center justify-center z-10 shadow-sm">
-                      <span className="material-symbols-outlined text-[18px]">
-                        {step.icon}
-                      </span>
+                    <div className="z-10 flex h-10 w-10 items-center justify-center rounded-full border border-brand-border bg-brand-bg text-brand-text-muted">
+                      <span className="material-symbols-outlined text-[18px]">{step.icon}</span>
                     </div>
                   )}
 
                   {!isLast && (
-                    <div
-                      className={`h-0.5 flex-1 ${
-                        index < currentStepIndex
-                          ? "bg-wood-ember"
-                          : "bg-surface-container-highest"
-                      }`}
-                    ></div>
+                    <div className={`h-px flex-1 ${index < currentStepIndex ? "bg-brand-primary" : "bg-brand-border"}`} />
                   )}
                 </div>
 
-                <div
-                  className={`flex flex-col pr-space-xs ${
-                    !isCompleted && !isCurrent ? "opacity-75" : ""
-                  }`}
-                >
-                  <span
-                    className={`font-label-caps text-label-caps uppercase ${
-                      isCurrent
-                        ? "text-wood-ember font-bold"
-                        : isCompleted
-                        ? "text-tertiary font-medium"
-                        : "text-smoke-muted"
-                    }`}
-                  >
+                <div className={`flex flex-col pr-2 ${!isCompleted && !isCurrent ? "opacity-65" : ""}`}>
+                  <span className={`text-[10px] font-bold uppercase tracking-wider ${isCurrent ? "text-brand-primary" : isCompleted ? "text-brand-primary/75" : "text-brand-text-muted"}`}>
                     {step.stepName} {isCurrent ? "• Hiện tại" : ""}
                   </span>
-                  <span
-                    className={`font-body-md text-body-md mt-0.5 ${
-                      isCurrent
-                        ? "font-semibold text-cream-offwhite"
-                        : isCompleted
-                        ? "font-medium text-cream-offwhite"
-                        : "text-smoke-light"
-                    }`}
-                  >
+                  <span className={`mt-1 text-sm ${isCurrent || isCompleted ? "font-bold text-brand-text-primary" : "text-brand-text-secondary"}`}>
                     {step.label}
                   </span>
                 </div>
@@ -183,72 +108,43 @@ export function TrackingTimeline({ order }: Readonly<TrackingTimelineProps>) {
         </div>
       </div>
 
-      {/* History Log Box */}
-      <div className="bg-surface-container-low rounded-xl p-space-md space-y-space-sm">
-        <div className="flex items-center justify-between border-b border-surface-container-high pb-2">
-          <span className="font-label-caps text-label-caps uppercase tracking-wider text-wood-ember flex items-center gap-1.5">
-            <span className="material-symbols-outlined text-[18px]">
-              history
-            </span>
+      <div className="border border-brand-border bg-brand-bg p-4">
+        <div className="flex items-center justify-between border-b border-brand-border pb-3">
+          <span className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-brand-primary">
+            <span className="material-symbols-outlined text-[18px]">history</span>
             Lịch sử trạng thái đơn hàng
           </span>
-          <span className="font-label-subtle text-label-subtle text-smoke-muted">
-            Thứ tự mới nhất trước
-          </span>
+          <span className="text-xs text-brand-text-muted">Thứ tự mới nhất trước</span>
         </div>
-        <div className="space-y-2 pt-1">
+        <div className="space-y-2 pt-3">
           {history.length > 0 ? (
             history.map((item, idx) => {
-              const meta = ORDER_STATUS_MAP[item.status] || {
-                label: item.status,
-              };
+              const meta = ORDER_STATUS_MAP[item.status] || { label: item.status };
               const isLatest = idx === 0;
 
               return (
-                <div
-                  key={item.id || `${item.status}-${idx}`}
-                  className={`flex items-start justify-between p-2 rounded-lg ${
-                    isLatest
-                      ? "bg-surface-container-high/60"
-                      : "bg-surface-container"
-                  }`}
-                >
+                <div key={item.id || `${item.status}-${idx}`} className={`flex items-start justify-between gap-4 border-b border-brand-border py-2 last:border-b-0 ${isLatest ? "font-semibold" : ""}`}>
                   <div className="flex items-center gap-2">
-                    <span
-                      className={`w-2 h-2 rounded-full ${
-                        isLatest ? "bg-wood-ember" : "bg-smoke-muted"
-                      }`}
-                    ></span>
-                    <span
-                      className={`font-body-md text-body-md font-medium ${
-                        isLatest ? "text-cream-offwhite" : "text-smoke-light"
-                      }`}
-                    >
-                      {meta.label} ({item.status})
-                      {item.note ? ` - ${item.note}` : ""}
+                    <span className={`h-2 w-2 rounded-full ${isLatest ? "bg-brand-primary" : "bg-brand-text-muted"}`} />
+                    <span className={`text-sm ${isLatest ? "text-brand-text-primary" : "text-brand-text-secondary"}`}>
+                      {meta.label} ({item.status}){item.note ? ` - ${item.note}` : ""}
                     </span>
                   </div>
-                  <span
-                    className={`font-label-subtle text-label-subtle ${
-                      isLatest ? "text-tertiary" : "text-smoke-muted"
-                    }`}
-                  >
+                  <span className={`shrink-0 text-xs ${isLatest ? "text-brand-primary" : "text-brand-text-muted"}`}>
                     {formatDateTime(item.changedAt)}
                   </span>
                 </div>
               );
             })
           ) : (
-            <div className="flex items-start justify-between p-2 rounded-lg bg-surface-container-high/60">
+            <div className="flex items-start justify-between gap-4 py-2">
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-wood-ember"></span>
-                <span className="font-body-md text-body-md font-medium text-cream-offwhite">
+                <span className="h-2 w-2 rounded-full bg-brand-primary" />
+                <span className="text-sm font-semibold text-brand-text-primary">
                   {ORDER_STATUS_MAP[order.status]?.label || order.status} ({order.status})
                 </span>
               </div>
-              <span className="font-label-subtle text-label-subtle text-tertiary">
-                {formatDateTime(order.createdAt)}
-              </span>
+              <span className="shrink-0 text-xs text-brand-primary">{formatDateTime(order.createdAt)}</span>
             </div>
           )}
         </div>
