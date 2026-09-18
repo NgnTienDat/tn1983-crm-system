@@ -1,90 +1,91 @@
-import { Card } from "@/components/ui/Card";
+import Image from "next/image";
+import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { SectionHeader } from "@/components/ui/SectionHeader";
+
+const roasteryImage = "/xuong_rang.jpg";
+
+const promises = [
+  "Chọn hạt kỹ từ vùng nguyên liệu Đắk Lắk",
+  "Canh lửa và đảo hạt bằng kinh nghiệm người thợ",
+  "Giữ chất lượng đồng nhất qua từng mẻ rang",
+  "Đồng hành lâu dài cùng quán và người yêu cà phê pha phin",
+];
 
 export function AboutSection() {
   return (
-    <section className="snap-section w-full bg-brand-bg py-s-96 border-b border-brand-border" id="cau-chuyen-xuong">
+    <section id="cau-chuyen-xuong" className="w-full border-b border-brand-border bg-white py-24 sm:py-28 lg:py-36">
       <Container>
-        {/* Standardized Section Header */}
-        <SectionHeader
-          align="left"
-          label="CHUYỆN NGHỀ GIA ĐÌNH"
-          heading="Nghề rang cà phê thủ công tại Buôn Ma Thuột"
-          description="Giữa thời đại công nghiệp hóa với những lò rang điện tự động, Cà phê Trọng Nhâm vẫn chọn giữ lại ngọn lửa củi đượm nồng và cái tâm của người làm nghề."
-        />
+        <div className="grid items-center gap-14 lg:grid-cols-12 lg:gap-20">
+          <div className="relative lg:col-span-5">
+            <div className="relative aspect-4/5 overflow-hidden bg-[#EDE5DD]">
+              <Image
+                src={roasteryImage}
+                alt="Không gian xưởng rang cà phê Trọng Nhâm"
+                fill
+                sizes="(max-width: 1024px) 100vw, 42vw"
+                className="object-cover"
+              />
+              
+              {/* 1. Đổi chiều gradient phủ từ trên xuống dưới (bg-linear-to-b) */}
+              <div className="absolute inset-0 bg-linear-to-b from-[#1B1613]/85 via-[#1B1613]/30 to-transparent" />
+              
+              {/* 2. Chuyển vị trí thông tin lên góc trên (top-7 left-7 right-7) */}
+              <div className="absolute top-7 left-7 right-7 text-white">
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#C79368]">
+                  Cơ sở rang xay trực tiếp (cơ sở cũ)
+                </span>
+                <p className="mt-2 text-lg font-bold leading-snug">
+                  147 Nguyễn Thái Bình, phường Tân Lập, tỉnh Đắk Lắk
+                </p>
+              </div>
+            </div>
 
-        {/* Bento Story Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-s-24 mb-s-32">
-          {/* Left Column (7 cols) */}
-          <Card className="lg:col-span-7 flex flex-col justify-between">
-            <div className="mb-s-32">
-              <div className="flex items-center gap-s-8 text-brand-primary mb-s-16">
-                <span className="material-symbols-outlined text-[20px]">history_edu</span>
-                <span className="text-label uppercase tracking-wider">Gắn bó qua nhiều thế hệ</span>
-              </div>
-              <h3 className="text-heading-m text-brand-text-primary mb-s-12 font-semibold">
-                Kinh nghiệm tích lũy qua nhiều thế hệ
-              </h3>
-              <p className="text-body-m text-brand-text-secondary leading-relaxed">
-                Sinh ra và lớn lên trên mảnh đất bazan Buôn Ma Thuột, chúng tôi hiểu từng đặc tính của hạt cà phê Robusta quê mình. Tiếng nổ lách tách trong lò rang và mùi hương bốc lên theo làn khói chính là chiếc đồng hồ chính xác nhất của thợ rang Trọng Nhâm.
-              </p>
-            </div>
-            <div className="pt-s-24 border-t border-brand-border grid grid-cols-3 gap-s-16">
-              <div>
-                <p className="text-heading-m text-brand-text-primary font-semibold">Buôn Ma Thuột</p>
-                <p className="text-caption text-brand-text-muted mt-1">Vùng nguyên liệu gốc</p>
-              </div>
-              <div>
-                <p className="text-heading-m text-brand-text-primary font-semibold">Lửa Củi Mộc</p>
-                <p className="text-caption text-brand-text-muted mt-1">Nhiệt mềm tự nhiên</p>
-              </div>
-              <div>
-                <p className="text-heading-m text-brand-text-primary font-semibold">Tay Nghề Canh</p>
-                <p className="text-caption text-brand-text-muted mt-1">Giác quan thợ rang</p>
+            {/* 3. Ảnh nhỏ (đổ cà) nằm phía dưới mà không sợ bị che mất văn bản */}
+            <div className="relative mt-4 aspect-video overflow-hidden border-8 border-white bg-[#EDE5DD] shadow-lg sm:absolute sm:-bottom-12 sm:-right-12 sm:mt-0 sm:aspect-[16/10] sm:w-60 lg:w-64">
+              <Image
+                src="/do_ca.jpg"
+                alt="Đổ cà phê sau mẻ rang thủ công"
+                fill
+                sizes="(max-width: 640px) 100vw, 256px"
+                className="object-cover"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-[#1B1613]/85 to-transparent px-3 pb-3 pt-8">
+                <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-white">
+                  Mẻ rang mới hoàn thành
+                </span>
               </div>
             </div>
-          </Card>
+          </div>
 
-          {/* Right Column (5 cols) */}
-          <Card className="lg:col-span-5 flex flex-col justify-between">
-            <div className="mb-s-24">
-              <div className="flex items-center gap-s-8 text-brand-primary mb-s-16">
-                <span className="material-symbols-outlined text-[20px]">storefront</span>
-                <span className="text-label uppercase tracking-wider">Uy tín làm nên thương hiệu</span>
-              </div>
-              <h3 className="text-heading-m text-brand-text-primary mb-s-12 font-semibold">
-                Bạn đồng hành tin cậy của khách hàng
-              </h3>
-              <p className="text-body-m text-brand-text-secondary leading-relaxed">
-                Với hơn 70% khách hàng là chủ quán cà phê, chúng tôi hiểu rằng chất lượng đồng đều và giá thành hợp lý của từng mẻ rang chính là uy tín sống còn để giữ chân thực khách cho quán của bạn.
-              </p>
+          <div className="lg:col-span-6 lg:col-start-7">
+            <div className="mb-5 flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.2em] text-brand-primary">
+              <span className="h-px w-10 bg-brand-primary" />
+              Câu chuyện xưởng
             </div>
-            <div className="p-s-16 rounded-xl bg-brand-surface-elevated border border-brand-border">
-              <div className="flex items-center gap-s-12">
-                <div className="w-10 h-10 rounded-full bg-brand-primary/15 flex items-center justify-center text-brand-primary shrink-0">
-                  <span className="material-symbols-outlined text-[20px]">handshake</span>
+            <h2 className="max-w-2xl text-4xl font-extrabold leading-[1.02] tracking-tighter text-brand-text-primary sm:text-6xl">
+              Giữ một cách làm tử tế qua bốn thập kỷ.
+            </h2>
+            <p className="mt-7 max-w-xl text-base leading-8 text-brand-text-secondary">
+              Trọng Nhâm bắt đầu từ một gia đình gắn bó với hạt cà phê Buôn Ma Thuột. Đến hôm nay, chúng tôi vẫn chọn cách làm gần với nguyên bản nhất: hạt tốt, lửa thật và sự chăm chút của người thợ trong từng mẻ rang.
+            </p>
+            <p className="mt-5 max-w-xl text-base leading-8 text-brand-text-secondary">
+              Với đối tác, điều quan trọng không chỉ là một bao cà phê ngon, mà là nguồn cung ổn định, hương vị nhất quán và một xưởng luôn sẵn sàng trao đổi thẳng thắn.
+            </p>
+
+            <div className="mt-9 border-t border-brand-border">
+              {promises.map((promise, index) => (
+                <div key={promise} className="flex items-center gap-4 border-b border-brand-border py-4">
+                  <span className="text-xs font-bold text-brand-primary">0{index + 1}</span>
+                  <span className="text-sm font-bold text-brand-text-primary">{promise}</span>
                 </div>
-                <div>
-                  <p className="text-body-m text-brand-text-primary font-medium">Hợp tác bền lâu cùng chủ quán</p>
-                  <p className="text-caption text-brand-text-muted">Hỗ trợ thử mẫu, tư vấn công thức phin đậm đà</p>
-                </div>
-              </div>
+              ))}
             </div>
-          </Card>
-        </div>
 
-        {/* Philosophy Quote Box */}
-        <div className="w-full rounded-2xl bg-brand-surface-elevated p-s-32 border border-brand-border text-center">
-          <span className="material-symbols-outlined text-brand-primary/40 text-[36px] mx-auto block mb-s-8">
-            format_quote
-          </span>
-          <blockquote className="text-heading-m text-brand-text-primary max-w-3xl mx-auto leading-relaxed mb-s-12 font-medium">
-            “Chúng tôi không quảng cáo hoa mỹ. Sự tin tưởng của khách hàng suốt hàng chục năm qua là thước đo lớn nhất cho từng mẻ rang của chúng tôi.”
-          </blockquote>
-          <p className="text-label text-brand-primary uppercase tracking-widest">
-            — Cà phê Trọng Nhâm —
-          </p>
+            <Button href="#ghe-tham-xuong" variant="text" className="mt-8 px-0 text-sm">
+              Tìm hiểu về xưởng
+              <span className="material-symbols-outlined ml-2 text-[17px]">arrow_forward</span>
+            </Button>
+          </div>
         </div>
       </Container>
     </section>

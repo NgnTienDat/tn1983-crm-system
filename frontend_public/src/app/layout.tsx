@@ -42,12 +42,12 @@ export const metadata: Metadata = {
 
 export function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="vi" className="dark">
+    <html lang="vi" className="light" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap"
           rel="stylesheet"
         />
         <link
@@ -55,10 +55,10 @@ export function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
           rel="stylesheet"
         />
       </head>
-      <body className="bg-brand-bg text-brand-text-secondary text-body-m font-normal antialiased selection:bg-brand-primary selection:text-brand-bg flex min-h-screen flex-col">
+      <body className="bg-brand-bg text-brand-text-secondary text-body-m font-normal antialiased flex min-h-screen flex-col">
         <QueryProvider>
           <Header />
-          <main className="w-full pt-16 bg-brand-bg flex-1">{children}</main>
+          <main className="w-full bg-brand-bg flex-1">{children}</main>
           <Footer />
         </QueryProvider>
       </body>
