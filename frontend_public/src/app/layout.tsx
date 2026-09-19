@@ -6,11 +6,13 @@ import { QueryProvider } from "@/providers/QueryProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "TN1983 Coffee | Cà phê Buôn Ma Thuột",
+  title: "Cà phê Trọng Nhâm | Rang củi Buôn Ma Thuột",
   description:
-    "TN1983 Coffee chuyên cung cấp cà phê hạt và cà phê bột cho quán cà phê, đại lý và khách hàng cá nhân. Sản xuất và đóng gói tại Buôn Ma Thuột.",
+    "Cà phê Trọng Nhâm chuyên cung cấp cà phê hạt và cà phê bột cho quán cà phê, đại lý và khách hàng cá nhân. Sản xuất và đóng gói tại Buôn Ma Thuột.",
   keywords: [
-    "TN1983 Coffee",
+    "Trọng Nhâm Coffee",
+    "Cà phê bột Trọng Nhâm",
+    "Cà phê Trọng Nhâm",
     "cà phê Buôn Ma Thuột",
     "cà phê hạt",
     "cà phê bột",
@@ -19,24 +21,24 @@ export const metadata: Metadata = {
     "cà phê đại lý",
   ],
   authors: [{ name: "TN1983 Coffee" }],
-  metadataBase: new URL("https://caphetrongnham.vn"),
+  metadataBase: new URL("https://www.trongnhamcoffee.me"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "TN1983 Coffee | Cà phê Buôn Ma Thuột",
+    title: "Cà phê Trọng Nhâm | Cà phê Buôn Ma Thuột",
     description:
-      "TN1983 Coffee chuyên cung cấp cà phê hạt và cà phê bột cho quán cà phê, đại lý và khách hàng cá nhân. Sản xuất và đóng gói tại Buôn Ma Thuột.",
-    url: "https://caphetrongnham.vn",
-    siteName: "Cà Phê Trọng Nhâm TN1983",
+      "Cà phê Trọng Nhâm chuyên cung cấp cà phê hạt và cà phê bột cho quán cà phê, đại lý và khách hàng cá nhân. Sản xuất và đóng gói tại Buôn Ma Thuột.",
+    url: "https://www.trongnhamcoffee.me",
+    siteName: "Cà Phê Trọng Nhâm",
     locale: "vi_VN",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "TN1983 Coffee | Cà phê Buôn Ma Thuột",
+    title: "Cà phê Trọng Nhâm | Cà phê Buôn Ma Thuột",
     description:
-      "TN1983 Coffee chuyên cung cấp cà phê hạt và cà phê bột cho quán cà phê, đại lý và khách hàng cá nhân. Sản xuất và đóng gói tại Buôn Ma Thuột.",
+      "Cà phê Trọng Nhâm chuyên cung cấp cà phê hạt và cà phê bột cho quán cà phê, đại lý và khách hàng cá nhân. Sản xuất và đóng gói tại Buôn Ma Thuột.",
   },
 };
 
