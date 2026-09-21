@@ -5,6 +5,7 @@ const navigation = [
   { path: '/products', label: 'Sản phẩm' },
   { path: '/orders', label: 'Đơn hàng' },
   { path: '/customers', label: 'Khách hàng' },
+  { path: '/users', label: 'Người dùng' },
   { path: '/settings', label: 'Cài đặt' },
 ] as const
 
@@ -14,6 +15,8 @@ type NavigationPath =
   | '/admin/products'
   | '/admin/orders'
   | '/admin/customers'
+  | '/users'
+  | '/admin/users'
   | '/admin/settings'
 
 type AdminLayoutProps = {

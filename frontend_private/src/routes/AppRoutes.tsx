@@ -11,6 +11,7 @@ import { DashboardPage } from '../features/dashboard/DashboardPage.tsx'
 import { OrderListPage } from '../features/orders/OrderListPage.tsx'
 import { ProductListPage } from '../features/products/ProductListPage.tsx'
 import { SettingsPage } from '../features/settings/SettingsPage.tsx'
+import { UserListPage } from '../features/users/UserListPage.tsx'
 import { useAuthStore } from '../store/authStore.ts'
 import { refreshAccessToken } from '../api/client.ts'
 
@@ -25,6 +26,8 @@ const routes = {
   '/admin/orders': { title: 'Đơn hàng', page: <OrderListPage /> },
   '/customers': { title: 'Khách hàng', page: <CustomerListPage /> },
   '/admin/customers': { title: 'Khách hàng', page: <CustomerListPage /> },
+  '/users': { title: 'Người dùng', page: <UserListPage /> },
+  '/admin/users': { title: 'Người dùng', page: <UserListPage /> },
   '/settings': { title: 'Cài đặt', page: <SettingsPage /> },
   '/admin/settings': { title: 'Cài đặt', page: <SettingsPage /> },
 } as const

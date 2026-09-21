@@ -50,7 +50,7 @@ export function ContactSection() {
                     Email
                   </span>
                   <span className="mt-2 block text-lg tracking-[-0.03em] text-brand-text-primary">
-                    caphetrongnham@gmail.com
+                    trongnhamcoffee@gmail.com
                   </span>
                 </div>
                 <span className="material-symbols-outlined text-brand-primary transition-transform group-hover:translate-x-1">
