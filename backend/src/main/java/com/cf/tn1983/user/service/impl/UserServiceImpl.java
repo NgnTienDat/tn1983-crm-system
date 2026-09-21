@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @PreAuthorize("hasRole('ADMIN')")
     public List<UserResponse> getAll() {
-        return userRepository.findAll().stream()
+        return userRepository.findAllByActiveTrue().stream()
                 .map(userMapper::toResponse)
                 .toList();
     }
