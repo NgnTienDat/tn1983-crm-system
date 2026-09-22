@@ -1,101 +1,98 @@
-Tôi nghĩ README của TN1983 nên viết như một **engineering case study** hơn là README mã nguồn truyền thống. Vì đây là sản phẩm đang được sử dụng thực tế, README cần trả lời:
+<div align="center">
 
-> Bài toán là gì?
-> Tôi đã thiết kế hệ thống thế nào?
-> Tôi đã đưa ra những quyết định kỹ thuật nào?
-> Tôi học được gì từ việc vận hành một hệ thống thật?
+<img src="public/logo_tn.png" width="120" alt="TN1983 Logo"/>
 
-Dưới đây là phiên bản README mà tôi sẽ viết nếu đây là portfolio chính của một Fresher/Junior Backend Engineer.
+# TN1983 Coffee Operations Platform
+
+**Coffee Operations Platform for a Family-Owned Roasting Business**
+
+</div>
+<p align="center">
+
+![Java](https://img.shields.io/badge/Backend-Java-orange)
+![Spring Boot](https://img.shields.io/badge/Framework-Spring%20Boot-green)
+![React](https://img.shields.io/badge/Admin-React-blue)
+![Next.js](https://img.shields.io/badge/Public-Next.js-black)
+![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-blue)
+![Docker](https://img.shields.io/badge/Infra-Docker-2496ED)
+
+</p>
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Business Problem](#1-business-problem)
+- [Key Features](#2-key-features)
+  - [Public Website](#public-website)
+  - [Administration Dashboard](#administration-dashboard)
+- [Order Workflow](#3-order-workflow)
+- [System Architecture](#4-system-architecture)
+- [Technical Highlights](#5-technical-highlights)
+- [Engineering Decisions](#6-engineering-decisions)
+- [Tech Stack](#7-tech-stack)
+- [Screenshots](#8-screenshots)
+- [Future Enhancements](#9-future-enhancements)
+- [Author](#author)
+
+## Overview
+
+TN1983 Coffee Operations Platform is a business management platform developed for a family-owned coffee roasting business in Buon Ma Thuot, Vietnam.
+
+The system centralizes customer, product, and order management while supporting the business's day-to-day operational workflow, from order reception to fulfillment. It also provides a public-facing website for product information and order tracking.
+
+Project was built to solve operational challenges and is currently deployed and used in production for managing actual customer and order data.
+
+### Project Status: Production (MVP)
+
+The current version covers the core business workflow required for daily operations, including customer management, product management, order processing, revenue monitoring, and customer order tracking.
+### Actors
+
+- **Business owner/Administrator:** Manages customers, products, orders, and business operations.
+- **Customer:** Views product information and tracks order status.
+---
+
+## 1. Business Problem
+
+TN1983 is a family-owned coffee roasting business that primarily receives orders through phone calls, messaging applications, and direct purchases.
+
+Before the system was introduced, customer information and order progress were tracked manually. As order volume increased, it became more difficult to maintain a clear view of customer history, production status, and business performance.
+
+The business needed a centralized platform to:
+
+- Store customer and order information in one place
+- Track orders throughout the roasting and fulfillment process
+- Reduce reliance on manual records
+- Provide visibility into daily business operations
+- Allow customers to check order status without direct contact
+
+The goal of this project was to digitize the core operational workflow while keeping the system simple enough for everyday use in a small business environment.
 
 ---
 
-# TN1983 Business Suite
+## 2. Key Features
 
-Business management platform built for a real family-owned coffee roasting business in Buon Ma Thuot, Vietnam.
+### Public Website
 
-The system centralizes customer, product, and order management while providing a public-facing website for product information and order tracking.
+| Feature | Description |
+|----------|-------------|
+| Product Catalog | Display available coffee products, packaging options, and pricing information. |
+| Business Information | Introduce the business, coffee roasting process, and contact details. |
+| Order Tracking | Allow customers to check the current status of their orders. |
 
-Unlike a typical portfolio CRUD project, this system is actively used in daily business operations and processes real customer and order data.
+### Administration Dashboard
 
----
-
-# 1. Business Problem
-
-TN1983 is a small coffee roasting business that primarily receives orders through:
-
-* Phone calls
-* Messaging applications
-* Direct purchases
-
-Before digitization:
-
-* Customer information was stored manually
-* Order tracking relied on memory and paper notes
-* Production progress was difficult to monitor
-* Revenue reporting required manual calculations
-
-The goal of this project was to build a lightweight business management platform that could support daily operations without introducing unnecessary complexity for non-technical users.
+| Feature | Description |
+|----------|-------------|
+| Authentication & Authorization | Secure access using role-based authentication. |
+| Customer Management | Create, update, search, and manage customer information. |
+| Product Management | Manage products, pricing, and availability. |
+| Order Management | Create orders and manage the complete order lifecycle. |
+| Order Status Tracking | Track orders from reception to completion. |
+| Revenue Dashboard | Monitor revenue and operational statistics. |
 
 ---
 
-# 2. Key Features
-
-## Public Website
-
-### Product Showcase
-
-* Coffee product catalog
-* Packaging options
-* Business introduction
-
-### Business Information
-
-* Family business story
-* Roasting process overview
-* Contact information
-
-### Order Tracking
-
-Customers can track the status of their orders without contacting the business directly.
-
----
-
-## Admin Dashboard
-
-### Authentication & Authorization
-
-* Secure login
-* Role-based access control
-* Protected administration routes
-
-### Customer Management
-
-* Customer profiles
-* Search and filtering
-* Pagination support
-
-### Product Management
-
-* Product catalog maintenance
-* Price management
-* Product availability management
-
-### Order Management
-
-* Create and update orders
-* Track production progress
-* Manage delivery lifecycle
-
-### Revenue Dashboard
-
-* Daily revenue metrics
-* Monthly revenue metrics
-* Yearly revenue metrics
-* Pending shipment overview
-
----
-
-# 3. Order Workflow
+## 3. Order Workflow
 
 The business workflow was modeled directly from the actual roasting and packaging process.
 
@@ -117,107 +114,42 @@ This workflow allows both business owners and customers to understand the curren
 
 ---
 
-# 4. System Architecture
+## 4. System Architecture
 
-The platform follows a simple but production-oriented architecture.
+The platform consists of two frontend applications, a centralized backend API, and a managed PostgreSQL database.
 
-```text
-Customer Website (Next.js)
-            │
-            │
-            ▼
-        Cloudflare
-            │
-            ▼
-       Reverse Proxy
-            │
-            ▼
- Spring Boot Backend API
-            │
-            ▼
-      PostgreSQL
-```
+### Deployment Overview
 
-Current deployment architecture:
-
-* Public Website deployed on Vercel
-* Admin Dashboard deployed on Vercel
-* Backend deployed on Azure VM
-* Reverse proxy layer for traffic management
-* PostgreSQL database hosted on Neon
-* Cloudflare providing DNS, TLS/SSL, and traffic protection
+- Public Website deployed on Vercel
+- Admin Dashboard deployed on Vercel
+- Backend API deployed on Azure Virtual Machine
+- PostgreSQL hosted on Neon
+- Cloudflare used for DNS management, TLS/SSL, and traffic protection
 
 ### Architecture Diagram
 
-*(Insert architecture diagram image here)*
-
-Bạn có thể dùng đúng ảnh vừa gửi.
+![alt text](public/tn1983_architecture.jpg)
 
 ---
 
-# 5. Technical Highlights
+## 5. Technical Highlights
 
-## Authentication & Session Management
-
-Implemented:
-
-* JWT authentication
-* Refresh token mechanism
-* Secure API access
-* Protected administration routes
-
----
-
-## API Design
-
-Designed a standardized REST API structure:
-
-```json
-{
-  "code": 1000,
-  "message": "Success",
-  "data": {}
-}
-```
-
-Features include:
-
-* Consistent response format
-* Pagination support
-* Validation handling
-* Centralized exception handling
+| Area | Implementation |
+|--------|----------------|
+| Authentication & Authorization | JWT-based authentication with role-based access control (RBAC). |
+| API Design | Standardized REST API responses, request validation, and centralized exception handling. |
+| Order Workflow Management | Business-driven order lifecycle from order reception to fulfillment. |
+| Dashboard & Reporting | Revenue statistics, order monitoring, and operational insights. |
+| Security | Password hashing, access control, API rate limiting, and Cloudflare protection. |
+| Database Design | Relational data model with support for customer, product, and order management. |
+| CI/CD | Automated build and deployment pipelines using GitHub Actions. |
+| Production Deployment | Public-facing deployment using Vercel, Azure VM, Neon PostgreSQL, and Cloudflare. |
 
 ---
 
-## Security
+## 6. Engineering Decisions
 
-Implemented multiple security layers:
-
-* Password hashing
-* JWT authentication
-* Role-based authorization
-* Request validation
-* API rate limiting
-* Cloudflare protection
-* Secure CORS configuration
-
----
-
-## Production Deployment
-
-Built automated deployment workflows for:
-
-* Backend services
-* Public website
-* Admin dashboard
-
-Deployment process supports continuous delivery from Git repositories to production environments.
-
----
-
-# 6. Engineering Decisions
-
-## Why Modular Monolith Instead of Microservices?
+### Why Modular Monolith Instead of Microservices?
 
 The application currently serves a single business domain and is maintained by a single developer.
 
@@ -232,7 +164,7 @@ while preserving a migration path toward microservices if future requirements de
 
 ---
 
-## Why Next.js For The Public Website?
+### Why Next.js For The Public Website?
 
 The public website is customer-facing and benefits from:
 
@@ -242,7 +174,7 @@ The public website is customer-facing and benefits from:
 
 ---
 
-## Why React For The Admin Dashboard?
+### Why React For The Admin Dashboard?
 
 Administrative screens require:
 
@@ -254,7 +186,7 @@ React provides a productive environment for building highly interactive internal
 
 ---
 
-## Why Cloudflare?
+### Why Cloudflare?
 
 Cloudflare provides:
 
@@ -267,176 +199,107 @@ allowing the application server to remain focused on business logic.
 
 ---
 
-# 7. Challenges & Lessons Learned
+### Why Neon PostgreSQL?
 
-## Translating Real Business Processes Into Software
+The system requires a managed PostgreSQL solution that minimizes infrastructure maintenance while remaining cost-effective for a small business environment.
 
-One of the biggest challenges was converting informal business operations into structured workflows.
+Neon was selected because it provides:
 
-This required:
+* Fully managed PostgreSQL
+* Automatic backups and maintenance
+* Separation of compute and storage
+* Lower operational overhead compared to self-hosting a database
+* A generous free tier suitable for the current workload
 
-* Identifying actual operational steps
-* Defining valid state transitions
-* Simplifying processes for daily use
-
----
-
-## Balancing Simplicity And Scalability
-
-The system needed to remain:
-
-* Easy enough for non-technical users
-* Structured enough for future expansion
-
-This influenced many architectural decisions throughout the project.
+This allows development effort to focus on business features and system reliability rather than database administration.
 
 ---
 
-## End-to-End Ownership
+## 7. Tech Stack
 
-This project provided hands-on experience across:
-
-* Backend development
-* Frontend development
-* Database design
-* Security implementation
-* Infrastructure setup
-* Deployment automation
-* Production operations
-
----
-
-# 8. Tech Stack
-
-## Backend
-
-* Java
-* Spring Boot
-* Spring Security
-* JWT
-* PostgreSQL
-* MapStruct
-* Lombok
+| Layer | Technologies |
+|---------|-------------|
+| Backend | Java, Spring Boot|
+| Database | Neon PostgreSQL|
+| Public Website | Next.js, TypeScript, Tailwind CSS |
+| Admin Dashboard | React, TypeScript, Tailwind CSS, TanStack Query, Zustand |
+| Infrastructure | Docker, Nginx, Azure VM, Vercel, Cloudflare |
+| CI/CD | GitHub Actions |
 
 ---
 
-## Frontend (Public Website)
+## 8. Screenshots
 
-* Next.js
-* TypeScript
-* Tailwind CSS
-
----
-
-## Frontend (Admin Dashboard)
-
-* React
-* TypeScript
-* Tailwind CSS
-* TanStack Query
-* Zustand
-
----
-
-## Infrastructure
-
-* Docker
-* Nginx
-* Azure Virtual Machine
-* Vercel
-* Cloudflare
-* Neon PostgreSQL
-* GitHub Actions
-
----
-
-# 9. Screenshots
-
-## Public Website
+### Public Website
 
 **Screenshot 1 — Home Page Hero Section**
 
-*(Insert image)*
+![alt text](public/image-1.png)
 
-**Screenshot 2 — Product Showcase**
+**Screenshot 2 — Products Section**
 
-*(Insert image)*
+![alt text](public/image-3.png)
 
-**Screenshot 3 — Coffee Roasting Process Section**
+**Screenshot 3 — Order Tracking Section (Customer site)**
 
-*(Insert image)*
-
-**Screenshot 4 — Mobile Responsive View**
-
-*(Insert image)*
+![alt text](public/image-9.png)
+![alt text](public/image-11.png)
 
 ---
 
-## Admin Dashboard
+### Admin Dashboard
 
-**Screenshot 5 — Dashboard Overview**
+**Screenshot 4 — Dashboard Overview Screen**
 
-*(Insert image)*
+![alt text](public/image-4.png)
+![alt text](public/image-5.png)
 
-**Screenshot 6 — Customer Management**
+**Screenshot 5 — Order Management Screen**
 
-*(Insert image)*
+![alt text](public/image-7.png)
 
-**Screenshot 7 — Product Management**
+**Screenshot 6 — Order Detail Screen**
 
-*(Insert image)*
+![alt text](public/image-6.png)
 
-**Screenshot 8 — Order Management**
+**Screenshot 8 — User Management Screen**
 
-*(Insert image)*
+![alt text](public/image-8.png)
+---
 
-**Screenshot 9 — Order Detail Screen**
+## 9. Future Enhancements
 
-*(Insert image)*
+The current MVP focuses on core order management and daily business operations. Planned enhancements include:
 
-**Screenshot 10 — Revenue Dashboard**
+- **Customer Notifications**  
+  Notify customers about order status changes through SMS or messaging platforms to reduce manual follow-up communication.
 
-*(Insert image)*
+- **Inventory Management**  
+  Track raw materials, finished products, and stock movements to support production planning and inventory control.
+
+- **Financial Management**  
+  Record operational expenses and revenue to provide better visibility into business profitability and cash flow.
+
+- **Advanced Reporting & Analytics**  
+  Extend the current dashboard with detailed business reports, trend analysis, product performance metrics, and operational insights.
+
+- **Customer Accounts & Order History**  
+  Allow customers to access previous orders and track purchasing history.
+
+- **Multi-User Administration**  
+  Support multiple administrative users with role-based permissions and activity tracking.
 
 ---
 
-## Deployment & Operations
+## Author
 
-**Screenshot 11 — CI/CD Pipeline**
+### Nguyen Tien Dat
 
-*(Insert image)*
-
-**Screenshot 12 — Production Deployment Overview**
-
-*(Insert image)*
-
----
-
-# 10. Future Enhancements
-
-Planned improvements include:
-
-* Customer account registration
-* Customer login and order history
-* Inventory management
-* Analytics dashboard
-* Notification system
-* Customer loyalty features
-* Multi-user administration
-* Operational reporting
-
----
-
-# Author
-
-Nguyen Tien Dat
-
-Final-year Computer Science Student
-
-Java Backend Developer
-
+**Java Backend Developer | Computer Science Student**  
 Ho Chi Minh City Open University
 
----
+#### Project Role
 
-Riêng phần **System Architecture**, tôi sẽ giữ sơ đồ ở mức như ảnh bạn gửi là hợp lý. Nó cho thấy bạn hiểu deployment, reverse proxy, DNS, CDN, TLS, database hosting... nhưng không tiết lộ IP, network topology, cấu hình Nginx, Docker Compose hay các chi tiết vận hành nhạy cảm. Điều đó cân bằng được giữa mục tiêu portfolio và yêu cầu bảo vệ hệ thống đang chạy thật.
+Sole developer responsible for designing, building, deploying, and maintaining the TN1983 Coffee Operations Platform.
+
+---
