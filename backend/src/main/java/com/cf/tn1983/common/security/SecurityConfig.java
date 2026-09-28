@@ -42,8 +42,13 @@ public class SecurityConfig {
                 return http
                                 .cors(Customizer.withDefaults())
                                 .csrf(AbstractHttpConfigurer::disable)
+
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
+                                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                                .addFilterAfter(rateLimitingFilter, JwtAuthenticationFilter.class)
+                
                                 .authorizeHttpRequests(auth -> auth
                                                 .requestMatchers(SecurityPaths.PUBLIC)
                                                 .permitAll()
@@ -55,8 +60,6 @@ public class SecurityConfig {
                                 .exceptionHandling(exception -> exception
                                                 .authenticationEntryPoint(authenticationEntryPoint)
                                                 .accessDeniedHandler(accessDeniedHandler))
-                                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                                .addFilterAfter(rateLimitingFilter, JwtAuthenticationFilter.class)
                                 .build();
         }
 
