@@ -27,6 +27,7 @@
   - [Administration Dashboard](#administration-dashboard)
 - [Order Workflow](#3-order-workflow)
 - [System Architecture](#4-system-architecture)
+- [Database Diagram](#database-diagram)
 - [Technical Highlights](#5-technical-highlights)
 - [Engineering Decisions](#6-engineering-decisions)
 - [Tech Stack](#7-tech-stack)
@@ -129,6 +130,34 @@ The platform consists of two frontend applications, a centralized backend API, a
 ### Architecture Diagram
 
 ![alt text](public/tn1983_architecture.jpg)
+
+## Database Diagram
+
+![TN1983 Database Diagram](public/tn1983-db.png)
+
+### Table Descriptions
+
+| Table | Description |
+|-------|-------------|
+| `users` | Stores administrator and staff accounts used for authentication and order status tracking. |
+| `customers` | Stores customer profiles, contact information, customer type, and active status. |
+| `products` | Stores coffee products, product types, listed prices, and availability. |
+| `orders` | Stores customer orders, delivery details, order source, shipping method, total amount, and current status. |
+| `order_items` | Stores the products included in each order, including quantity, purchase price, packaging, and calculated line total. |
+| `order_status_histories` | Stores the status-change timeline of an order and the user who made each change. |
+| `refresh_tokens` | Stores refresh-token rotation data, token families, expiration, usage, and revocation status. |
+| `blacklisted_tokens` | Stores invalidated access-token identifiers until their expiration time. |
+
+### Relationships
+
+- One customer can have many orders. Each order belongs to exactly one customer through `orders.customer_id`.
+- One order can contain many order items. Each order item belongs to exactly one order through `order_items.order_id`.
+- One product can appear in many order items. Each order item references exactly one product through `order_items.product_id`.
+- One order can have many status-history records. Each history record belongs to exactly one order through `order_status_histories.order_id`.
+- One user can record many order-status changes. `order_status_histories.changed_by_id` optionally references the user who made the change.
+- `refresh_tokens.user_id` identifies the owning user, but it is currently stored as a UUID without a database foreign-key constraint.
+
+The `id`, `created_at`, and `updated_at` columns are inherited from the shared `BaseEntity` class. Enum fields such as order status, customer type, product type, and shipping method are persisted as string values.
 
 ---
 
