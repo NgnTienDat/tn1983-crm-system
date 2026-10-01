@@ -27,7 +27,6 @@
   - [Administration Dashboard](#administration-dashboard)
 - [Order Workflow](#3-order-workflow)
 - [System Architecture](#4-system-architecture)
-- [Database Diagram](#database-diagram)
 - [Technical Highlights](#5-technical-highlights)
 - [Engineering Decisions](#6-engineering-decisions)
 - [Tech Stack](#7-tech-stack)
@@ -130,10 +129,6 @@ The platform consists of two frontend applications, a centralized backend API, a
 ### Architecture Diagram
 
 ![alt text](public/tn1983_architecture.jpg)
-
-## Database Diagram
-
-![TN1983 Database Diagram](public/tn1983-db.png)
 
 ### Table Descriptions
 
